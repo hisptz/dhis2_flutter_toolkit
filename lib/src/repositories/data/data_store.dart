@@ -28,6 +28,7 @@ class D2DataStoreRepository extends BaseDataRepository
 
   setNamespace(String namespace) {
     this.namespace = namespace;
+    conditions = D2DataStore_.namespace.equals(namespace);
   }
 
   D2DataStore? getByKey(String key) {
@@ -57,16 +58,15 @@ class D2DataStoreRepository extends BaseDataRepository
     try {
       Map response =
           await client.httpPost("dataStore/$namespace/$key", payload);
-        if (response.containsKey("httpStatus")) {
-          if (response["httpStatus"] == "OK") {
-            if (kDebugMode) {
-              print("Logs uploaded successfully");
-            }
-          } else {
-            response =
-                await client.httpPut("dataStore/$namespace/$key", payload);
+      if (response.containsKey("httpStatus")) {
+        if (response["httpStatus"] == "OK") {
+          if (kDebugMode) {
+            print("Logs uploaded successfully");
           }
+        } else {
+          response = await client.httpPut("dataStore/$namespace/$key", payload);
         }
+      }
     } catch (e) {
       if (kDebugMode) {
         print("Failed to upload logs: $e");

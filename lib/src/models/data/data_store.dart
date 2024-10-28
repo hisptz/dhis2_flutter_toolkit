@@ -25,7 +25,7 @@ class D2DataStore {
       {required this.namespace, required this.key, required Object value})
       : value = jsonEncode(value),
         uid = "$namespace-$key" {
-    id = D2DataStoreRepository(db).getIdByUid(uid) ?? 0;
+    id = D2DataStoreRepository(db, namespace: namespace).getIdByUid(uid) ?? 0;
   }
 
   getValue<T>() {
