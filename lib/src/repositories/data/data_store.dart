@@ -52,7 +52,7 @@ class D2DataStoreRepository extends BaseDataRepository
     // Prepare the payload to send
     String key = client.credentials.username;
     String payload = jsonEncode(logs);
-    Map jsonPayload = jsonDecode(payload);
+    List jsonPayload = jsonDecode(payload);
     D2DataStore logDataStore =
         D2DataStore.fromMap(db, namespace: namespace, key: key, value: logs);
     box.put(logDataStore);
