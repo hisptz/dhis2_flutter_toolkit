@@ -52,19 +52,20 @@ class D2DataStoreRepository extends BaseDataRepository
     // Prepare the payload to send
     String key = client.credentials.username;
     String payload = jsonEncode(logs);
+    Map jsonPayload = jsonDecode(payload);
     D2DataStore logDataStore =
         D2DataStore.fromMap(db, namespace: namespace, key: key, value: logs);
     box.put(logDataStore);
     try {
       Map response =
-          await client.httpPost("dataStore/$namespace/$key", payload);
+          await client.httpPost("dataStore/$namespace/$key", jsonPayload);
       if (response.containsKey("httpStatus")) {
         if (response["httpStatus"] == "OK") {
           if (kDebugMode) {
             print("Logs uploaded successfully");
           }
         } else {
-          response = await client.httpPut("dataStore/$namespace/$key", payload);
+          response = await client.httpPut("dataStore/$namespace/$key", jsonPayload);
         }
       }
     } catch (e) {
