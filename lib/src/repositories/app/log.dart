@@ -25,6 +25,7 @@ class D2AppLogRepository {
 
   List<Map> getAllLogsAsMap() {
     List<D2AppLog> logs = box.getAll();
+    logs.sort((a, b) => b.timestamp.compareTo(a.timestamp));
     return logs.map((log) => log.toMap()).toList();
   }
 }
