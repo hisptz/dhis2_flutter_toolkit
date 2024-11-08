@@ -273,7 +273,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(4, 8139154496331483919),
       name: 'D2Enrollment',
-      lastPropertyId: const obx_int.IdUid(15, 8064178610579242588),
+      lastPropertyId: const obx_int.IdUid(16, 1951617282478207461),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -357,6 +357,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(15, 8064178610579242588),
             name: 'geometry',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 1951617282478207461),
+            name: 'createdBy',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[
@@ -380,7 +385,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(5, 6994186532441416598),
       name: 'D2Event',
-      lastPropertyId: const obx_int.IdUid(19, 4391109077581780900),
+      lastPropertyId: const obx_int.IdUid(20, 6295306590140483005),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -487,6 +492,11 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(19, 4391109077581780900),
             name: 'geometry',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 6295306590140483005),
+            name: 'createdBy',
             type: 9,
             flags: 0)
       ],
@@ -1887,7 +1897,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(25, 1166612924871214481),
       name: 'D2TrackedEntity',
-      lastPropertyId: const obx_int.IdUid(11, 5482632954940888850),
+      lastPropertyId: const obx_int.IdUid(12, 7983656261758034862),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -1948,6 +1958,11 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(11, 5482632954940888850),
             name: 'geometry',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 7983656261758034862),
+            name: 'createdBy',
             type: 9,
             flags: 0)
       ],
@@ -3854,7 +3869,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final geometryOffset = object.geometry == null
               ? null
               : fbb.writeString(object.geometry!);
-          fbb.startTable(16);
+          final createdByOffset = object.createdBy == null
+              ? null
+              : fbb.writeString(object.createdBy!);
+          fbb.startTable(17);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.createdAt.millisecondsSinceEpoch);
           fbb.addInt64(2, object.updatedAt.millisecondsSinceEpoch);
@@ -3870,6 +3888,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(12, object.program.targetId);
           fbb.addBool(13, object.synced);
           fbb.addOffset(14, geometryOffset);
+          fbb.addOffset(15, createdByOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -3896,6 +3915,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGetNullable(buffer, rootOffset, 22);
           final syncedParam =
               const fb.BoolReader().vTableGet(buffer, rootOffset, 30, false);
+          final createdByParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 34);
           final geometryParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 32);
           final object = D2Enrollment(
@@ -3909,6 +3930,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               statusParam,
               notesParam,
               syncedParam,
+              createdByParam,
               geometryParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           object.trackedEntity.targetId =
@@ -3982,7 +4004,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final geometryOffset = object.geometry == null
               ? null
               : fbb.writeString(object.geometry!);
-          fbb.startTable(20);
+          final createdByOffset = object.createdBy == null
+              ? null
+              : fbb.writeString(object.createdBy!);
+          fbb.startTable(21);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.createdAt.millisecondsSinceEpoch);
           fbb.addInt64(2, object.updatedAt.millisecondsSinceEpoch);
@@ -4002,6 +4027,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(16, object.orgUnit.targetId);
           fbb.addBool(17, object.synced);
           fbb.addOffset(18, geometryOffset);
+          fbb.addOffset(19, createdByOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -4040,6 +4066,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               : DateTime.fromMillisecondsSinceEpoch(occurredAtValue);
           final syncedParam =
               const fb.BoolReader().vTableGet(buffer, rootOffset, 38, false);
+          final createdByParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 42);
           final geometryParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 40);
           final object = D2Event(
@@ -4055,6 +4083,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               uidParam,
               occurredAtParam,
               syncedParam,
+              createdByParam,
               geometryParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           object.enrollment.targetId =
@@ -5664,7 +5693,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final geometryOffset = object.geometry == null
               ? null
               : fbb.writeString(object.geometry!);
-          fbb.startTable(12);
+          final createdByOffset = object.createdBy == null
+              ? null
+              : fbb.writeString(object.createdBy!);
+          fbb.startTable(13);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.createdAt.millisecondsSinceEpoch);
           fbb.addInt64(2, object.updatedAt.millisecondsSinceEpoch);
@@ -5676,6 +5708,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(8, object.trackedEntityType.targetId);
           fbb.addBool(9, object.synced);
           fbb.addOffset(10, geometryOffset);
+          fbb.addOffset(11, createdByOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -5698,6 +5731,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.BoolReader().vTableGet(buffer, rootOffset, 22, false);
           final geometryParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 24);
+          final createdByParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 26);
           final object = D2TrackedEntity(
               uidParam,
               createdAtParam,
@@ -5706,7 +5741,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               potentialDuplicateParam,
               inactiveParam,
               syncedParam,
-              geometryParam)
+              geometryParam,
+              createdByParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           object.orgUnit.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
@@ -7595,6 +7631,10 @@ class D2Enrollment_ {
   static final geometry =
       obx.QueryStringProperty<D2Enrollment>(_entities[3].properties[14]);
 
+  /// See [D2Enrollment.createdBy].
+  static final createdBy =
+      obx.QueryStringProperty<D2Enrollment>(_entities[3].properties[15]);
+
   /// see [D2Enrollment.relationshipsForQuery]
   static final relationshipsForQuery =
       obx.QueryRelationToMany<D2Enrollment, D2Relationship>(
@@ -7692,6 +7732,10 @@ class D2Event_ {
   /// See [D2Event.geometry].
   static final geometry =
       obx.QueryStringProperty<D2Event>(_entities[4].properties[18]);
+
+  /// See [D2Event.createdBy].
+  static final createdBy =
+      obx.QueryStringProperty<D2Event>(_entities[4].properties[19]);
 
   /// see [D2Event.dataValuesForQuery]
   static final dataValuesForQuery =
@@ -8769,6 +8813,10 @@ class D2TrackedEntity_ {
   /// See [D2TrackedEntity.geometry].
   static final geometry =
       obx.QueryStringProperty<D2TrackedEntity>(_entities[23].properties[10]);
+
+  /// See [D2TrackedEntity.createdBy].
+  static final createdBy =
+      obx.QueryStringProperty<D2TrackedEntity>(_entities[23].properties[11]);
 
   /// see [D2TrackedEntity.enrollmentsForQuery]
   static final enrollmentsForQuery =
