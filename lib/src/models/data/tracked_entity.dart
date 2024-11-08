@@ -28,6 +28,7 @@ class D2TrackedEntity extends SyncDataSource
   bool inactive;
 
   String? geometry;
+  String? createdBy;
 
   @Backlink("trackedEntity")
   final enrollments = ToMany<D2Enrollment>();
@@ -52,8 +53,16 @@ class D2TrackedEntity extends SyncDataSource
   @Backlink("trackedEntity")
   final events = ToMany<D2Event>();
 
-  D2TrackedEntity(this.uid, this.createdAt, this.updatedAt, this.deleted,
-      this.potentialDuplicate, this.inactive, this.synced, this.geometry);
+  D2TrackedEntity(
+      this.uid,
+      this.createdAt,
+      this.updatedAt,
+      this.deleted,
+      this.potentialDuplicate,
+      this.inactive,
+      this.synced,
+      this.geometry,
+      this.createdBy);
 
   D2TrackedEntity.fromMap(D2ObjectBox db, Map json)
       : uid = json["trackedEntity"],
@@ -61,6 +70,7 @@ class D2TrackedEntity extends SyncDataSource
         updatedAt = DateTime.parse(json["updatedAt"]),
         deleted = json["deleted"],
         synced = true,
+        createdBy = json["createdBy"]?["username"],
         potentialDuplicate = json["potentialDuplicate"],
         geometry =
             json["geometry"] != null ? jsonEncode(json["geometry"]) : null,
@@ -90,10 +100,10 @@ class D2TrackedEntity extends SyncDataSource
         deleted = false,
         synced = false,
         inactive = false,
+        createdBy = D2UserRepository(db).get()?.username ?? '',
         uid = D2UID.generate() {
     this.orgUnit.target = orgUnit;
     trackedEntityType.target = program.trackedEntityType.target;
-
     List<D2TrackedEntityAttribute> trackedEntityAttributes = program
         .programTrackedEntityAttributes
         .map((pAttribute) => pAttribute.trackedEntityAttribute.target!)
