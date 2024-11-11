@@ -31,6 +31,7 @@ class D2Event extends SyncDataSource
   bool followup;
   String? attributeOptionCombo;
   String? notes;
+  String? createdBy;
 
   String? geometry;
 
@@ -63,6 +64,7 @@ class D2Event extends SyncDataSource
       this.uid,
       this.occurredAt,
       this.synced,
+      this.createdBy,
       this.geometry);
 
   D2Event.fromMap(D2ObjectBox db, Map json)
@@ -73,6 +75,7 @@ class D2Event extends SyncDataSource
         followup = json["followup"],
         deleted = json["deleted"],
         status = json["status"],
+        createdBy = json["createdBy"]?["username"],
         synced = true,
         notes = jsonEncode(json["notes"]),
         scheduledAt = DateTime.tryParse(json["scheduledAt"] ?? ""),
@@ -116,6 +119,7 @@ class D2Event extends SyncDataSource
         deleted = false,
         status = formValues["status"] ?? "COMPLETED",
         synced = false,
+        createdBy = D2UserRepository(db).get()?.username ?? '',
         uid = D2UID.generate(),
         occurredAt = DateTime.tryParse(formValues["occurredAt"] ?? "") ??
             DateTime.now() {
