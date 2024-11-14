@@ -1,4 +1,6 @@
-class D2InputFieldOption {
+import 'package:dhis2_flutter_toolkit/src/ui/dropdown/custom_dropdown.dart';
+
+class D2InputFieldOption with CustomDropdownListFilter{
   String code;
   String name;
   int sortOrder;
@@ -12,5 +14,10 @@ class D2InputFieldOption {
   @override
   String toString() {
     return code;
+  }
+  
+  @override
+  bool filter(String query) {
+    return name.toLowerCase().contains(query.toLowerCase());
   }
 }
