@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class D2SecureStorageService {
-  FlutterSecureStorage storage = const FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage(
+      aOptions: AndroidOptions(
+    encryptedSharedPreferences: true,
+  ));
 
   Future<String?> get(String key) async {
     return await storage.read(key: key);
