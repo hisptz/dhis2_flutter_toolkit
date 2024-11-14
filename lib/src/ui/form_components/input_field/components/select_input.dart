@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:dhis2_flutter_toolkit/src/ui/dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 
 import '../models/input_field_option.dart';
@@ -20,50 +21,89 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem<D2InputFieldOption>> options =
-        input.filteredOptions.map((D2InputFieldOption option) {
-      bool isSelected = option.code == value;
-      return DropdownMenuItem<D2InputFieldOption>(
-        value: option,
-        child: Text(
-          option.name,
-          style: TextStyle(color: isSelected ? color : null),
-        ),
-      );
-    }).toList();
-
+    List<D2InputFieldOption> optionNames = input.filteredOptions;
     D2InputFieldOption? valueOption = input.filteredOptions
         .firstWhereOrNull((D2InputFieldOption option) => option.code == value);
-    return DropdownButton<D2InputFieldOption>(
-      alignment: Alignment.centerLeft,
-      underline: Container(
-        height: 0,
-        color: Colors.transparent,
-      ),
-      iconEnabledColor: color,
-      selectedItemBuilder: (context) => input.filteredOptions
-          .map((e) => Align(
-                alignment: Alignment.centerLeft,
-                child: Text(e.name),
-              ))
-          .toList(),
-      value: valueOption,
-      focusColor: decoration.colorScheme.active.withOpacity(0.1),
-      items: options,
-      iconDisabledColor: Colors.grey,
-      icon: Transform.rotate(
-        angle: -(pi / 2),
-        child: const Icon(
-          Icons.chevron_left,
-          size: 32,
-        ),
-      ),
-      isExpanded: true,
-      onChanged: disabled
-          ? null
-          : (D2InputFieldOption? selectedOption) {
-              onChange(selectedOption?.code);
+
+    final bool shouldShowSearch = optionNames.length >= 5;
+
+    return shouldShowSearch
+        ? CustomDropdown<D2InputFieldOption>.search(
+            decoration: CustomDropdownDecoration(
+              closedFillColor: Colors.transparent,
+              hintStyle: TextStyle(color: color),
+              listItemDecoration: ListItemDecoration(
+                selectedColor: color.withOpacity(0.05),
+                selectedIconColor: color.withOpacity(0.05),
+              ),
+            ),
+            disabledDecoration: const CustomDropdownDisabledDecoration(
+              fillColor: Colors.transparent,
+            ),
+            closedHeaderPadding: const EdgeInsets.all(0),
+            headerBuilder: (context, selectedItem, enabled) {
+              return Text(
+                selectedItem.name,
+              );
             },
-    );
+            listItemBuilder: (context, item, isSelected, onItemSelect) {
+              bool isSelected = item.code == value;
+              return ListTile(
+                title: Text(item.name,
+                    style: isSelected ? TextStyle(color: color) : null),
+              );
+            },
+            overlayHeight: 340,
+            itemsListPadding: const EdgeInsets.all(0.0),
+            listItemPadding: const EdgeInsets.all(0.0),
+            initialItem: valueOption,
+            hintText: '',
+            items: optionNames,
+            excludeSelected: false,
+            enabled: !disabled,
+            onChanged: disabled
+                ? null
+                : (D2InputFieldOption? selectedOption) {
+                    onChange(selectedOption?.code);
+                  },
+          )
+        : CustomDropdown<D2InputFieldOption>(
+            decoration: CustomDropdownDecoration(
+              closedFillColor: Colors.transparent,
+              hintStyle: TextStyle(color: color),
+              listItemDecoration: ListItemDecoration(
+                selectedColor: color.withOpacity(0.05),
+                selectedIconColor: color.withOpacity(0.05),
+              ),
+            ),
+            disabledDecoration: const CustomDropdownDisabledDecoration(
+              fillColor: Colors.transparent,
+            ),
+            closedHeaderPadding: const EdgeInsets.all(0),
+            headerBuilder: (context, selectedItem, enabled) {
+              return Text(
+                selectedItem.name,
+              );
+            },
+            listItemBuilder: (context, item, isSelected, onItemSelect) {
+              bool isSelected = item.code == value;
+              return ListTile(
+                title: Text(item.name,
+                    style: isSelected ? TextStyle(color: color) : null),
+              );
+            },
+            itemsListPadding: const EdgeInsets.all(0.0),
+            listItemPadding: const EdgeInsets.all(0.0),
+            initialItem: valueOption,
+            hintText: '',
+            items: optionNames,
+            excludeSelected: false,
+            enabled: !disabled,
+            onChanged: disabled
+                ? null
+                : (D2InputFieldOption? selectedOption) {
+                    onChange(selectedOption?.code);
+                  },
+          );
   }
 }
