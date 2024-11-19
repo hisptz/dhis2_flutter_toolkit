@@ -25,7 +25,7 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
     D2InputFieldOption? valueOption = input.filteredOptions
         .firstWhereOrNull((D2InputFieldOption option) => option.code == value);
 
-    final bool shouldShowSearch = optionNames.length >= 5;
+    final bool shouldShowSearch = optionNames.length >= 6;
 
     return shouldShowSearch
         ? CustomDropdown<D2InputFieldOption>.search(
@@ -53,10 +53,11 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
                     style: isSelected ? TextStyle(color: color) : null),
               );
             },
-            overlayHeight: 340,
+            overlayHeight: 400,
             itemsListPadding: const EdgeInsets.all(0.0),
             listItemPadding: const EdgeInsets.all(0.0),
             initialItem: valueOption,
+            overlayController: OverlayPortalController(),
             hintText: '',
             items: optionNames,
             excludeSelected: false,
