@@ -190,6 +190,8 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     );
   }
 
+   
+  double widgetBottomHeight = 0;
   @override
   void initState() {
     super.initState();
@@ -199,12 +201,23 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
       final render2 = key2.currentContext?.findRenderObject() as RenderBox;
       final screenHeight = MediaQuery.of(context).size.height;
       double y = render1.localToGlobal(Offset.zero).dy;
+      print('****render1.size.height ${render1.size.height}');
+      print('****render2.size.height ${render2.size.height}');
+      print('****y $y');
       if (screenHeight - y < render2.size.height) {
         displayOverlayBottom = false;
+
         setState(() {});
       }
+      setState(() {
+        widgetBottomHeight = screenHeight - y;
+      });
+    
+      print('****displayOverlayBottom $displayOverlayBottom');
     });
-
+    print(WidgetsBinding
+        .instance.platformDispatcher.views.first.viewInsets.bottom);
+   
     selectedItem = widget.selectedItemNotifier.value;
     selectedItems = widget.selectedItemsNotifier.value;
 
@@ -221,6 +234,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     }
   }
 
+ 
   @override
   void dispose() {
     widget.selectedItemNotifier.removeListener(singleSelectListener);
@@ -258,10 +272,39 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
 
     // search availability check
     final onSearch = widget.searchType != null;
+    bool isKeyboardShowing = WidgetsBinding
+            .instance.platformDispatcher.views.first.viewInsets.bottom >
+        0;
+    double keyboardHeight = WidgetsBinding
+        .instance.platformDispatcher.views.first.viewInsets.bottom;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double artHeight = screenHeight * 0.4;
+    print('*screenHeight $screenHeight');
+    print('*artHeight $artHeight');
+    
+     
+    print('*Height from bottom: ${widgetBottomHeight.toStringAsFixed(1)} px');
 
+    double height = keyboardHeight + 30.0;
+    if (keyboardHeight > screenHeight) {
+      height = (keyboardHeight + 30) - screenHeight;
+    }
     // overlay offset
-    final overlayOffset = Offset(-12, displayOverlayBottom ? 0 : 64);
+    final overlayOffset = Offset(
+        -16,
+        displayOverlayBottom
+            ? -10
+            : isKeyboardShowing
+                ? (-1 * (artHeight - widgetBottomHeight))
+                : 64);
 
+    // final overlayOffset = Offset(
+    //     -10,
+    //     displayOverlayBottom && !isKeyboardShowing
+    //         ? 0
+    //         : isKeyboardShowing
+    //             ? -30
+    //             : 64);
     // list padding
     final listPadding =
         onSearch ? const EdgeInsets.only(top: 8) : EdgeInsets.zero;
@@ -324,7 +367,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                   child: SizedBox(
                     key: key2,
                     height: items.length > 4
-                        ? widget.overlayHeight ?? (onSearch ? 270 : 225)
+                        ? widget.overlayHeight ?? (onSearch ? 300 : 225)
                         : null,
                     child: ClipRRect(
                       borderRadius: decoration?.expandedBorderRadius ??
@@ -337,18 +380,18 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                         },
                         child: Theme(
                           data: Theme.of(context).copyWith(
-                            scrollbarTheme: decoration
-                                    ?.overlayScrollbarDecoration ??
-                                ScrollbarThemeData(
-                                  thumbVisibility: WidgetStateProperty.all(
-                                    true,
-                                  ),
-                                  thickness: WidgetStateProperty.all(5),
-                                  radius: const Radius.circular(4),
-                                  thumbColor: WidgetStateProperty.all(
-                                    Colors.grey[300],
-                                  ),
-                                ),
+                            scrollbarTheme:
+                                decoration?.overlayScrollbarDecoration ??
+                                    ScrollbarThemeData(
+                                      thumbVisibility: WidgetStateProperty.all(
+                                        true,
+                                      ),
+                                      thickness: WidgetStateProperty.all(5),
+                                      radius: const Radius.circular(4),
+                                      thumbColor: WidgetStateProperty.all(
+                                        Colors.grey[300],
+                                      ),
+                                    ),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
