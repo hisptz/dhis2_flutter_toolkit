@@ -41,13 +41,12 @@ class D2InputFieldContainer extends StatelessWidget {
   final String? warning;
   final bool? mandatory;
   final bool disabled;
-  final D2InputDecoration? inputDecoration;
-  final bool iconOnRight;
+  D2InputDecoration? inputDecoration;
 
   D2InputFieldContainer({
     super.key,
     required this.input,
-    D2InputDecoration? inputDecoration,
+    this.inputDecoration,
     this.value,
     required this.onChange,
     required this.color,
@@ -55,13 +54,13 @@ class D2InputFieldContainer extends StatelessWidget {
     this.mandatory = false,
     this.disabled = false,
     this.warning,
-    this.iconOnRight = false, // Default to false (icon on left)
-  }) : inputDecoration = inputDecoration ??
-            D2InputDecoration.fromInput(input,
-                color: color ?? Colors.blue,
-                disabled: disabled,
-                error: error != null,
-                warning: warning != null);
+  }) {
+    inputDecoration ??= D2InputDecoration.fromInput(input,
+        color: color ?? Colors.blue,
+        disabled: disabled,
+        error: error != null,
+        warning: warning != null);
+  }
 
   Color get colorOverride {
     return inputDecoration!.colorScheme.getStatusColor(
@@ -366,6 +365,19 @@ class D2InputFieldContainer extends StatelessWidget {
             ),
           ),
         ),
+        Visibility(
+          visible: input.isCalendar && !disabled,
+          child: Container(
+            constraints: inputDecoration!.inputIconDecoration.iconConstraints,
+            child: InputFieldIcon(
+              backgroundColor:
+                  inputDecoration!.inputIconDecoration.backgroundColor,
+              iconColor: inputDecoration!.inputIconDecoration.iconColor,
+              iconData: Icons.calendar_month_sharp, // Set the icon data
+              svgIcon: null, // No SVG icon for this case
+            ),
+          ),
+        ),
       ];
     }
 
@@ -374,8 +386,6 @@ class D2InputFieldContainer extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 96),
       child: Row(
         children: [
-          if (!iconOnRight)
-            getPrefix(), // Add icon on the left if iconOnRight is false
           Expanded(
             child: Container(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0),
@@ -414,9 +424,8 @@ class D2InputFieldContainer extends StatelessWidget {
                   ),
                   Row(
                     children: [
+                      getPrefix(),
                       Expanded(child: getInput()),
-                      if (iconOnRight)
-                        getPrefix(), // Add icon on the right if iconOnRight is true
                       ...getSuffix(),
                     ],
                   ),
