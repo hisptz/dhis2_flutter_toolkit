@@ -880,7 +880,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(13, 842731617041164856),
       name: 'D2Program',
-      lastPropertyId: const obx_int.IdUid(16, 3894243653883032566),
+      lastPropertyId: const obx_int.IdUid(17, 7682698038521325042),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -966,6 +966,11 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(16, 3894243653883032566),
             name: 'code',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(17, 7682698038521325042),
+            name: 'description',
             type: 9,
             flags: 0)
       ],
@@ -4570,7 +4575,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final colorOffset =
               object.color == null ? null : fbb.writeString(object.color!);
           final codeOffset = fbb.writeString(object.code);
-          fbb.startTable(17);
+          final descriptionOffset = object.description == null
+              ? null
+              : fbb.writeString(object.description!);
+          fbb.startTable(18);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.created.millisecondsSinceEpoch);
           fbb.addInt64(2, object.lastUpdated.millisecondsSinceEpoch);
@@ -4587,6 +4595,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(13, colorOffset);
           fbb.addInt64(14, object.sharing.targetId);
           fbb.addOffset(15, codeOffset);
+          fbb.addOffset(16, descriptionOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -4621,6 +4630,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final featureTypeParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 28);
+          final descriptionParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 36);
           final object = D2Program(
               createdParam,
               lastUpdatedParam,
@@ -4633,7 +4645,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               onlyEnrollOnceParam,
               displayNameParam,
               codeParam,
-              featureTypeParam)
+              featureTypeParam,
+              descriptionParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
             ..selectEnrollmentDatesInFuture =
                 const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 22);
@@ -8079,6 +8092,10 @@ class D2Program_ {
   /// See [D2Program.code].
   static final code =
       obx.QueryStringProperty<D2Program>(_entities[11].properties[15]);
+
+  /// See [D2Program.description].
+  static final description =
+      obx.QueryStringProperty<D2Program>(_entities[11].properties[16]);
 
   /// see [D2Program.organisationUnits]
   static final organisationUnits =
