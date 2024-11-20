@@ -365,6 +365,19 @@ class D2InputFieldContainer extends StatelessWidget {
             ),
           ),
         ),
+        Visibility(
+          visible: input.isCalendar && !disabled,
+          child: Container(
+            constraints: inputDecoration!.inputIconDecoration.iconConstraints,
+            child: InputFieldIcon(
+              backgroundColor:
+                  inputDecoration!.inputIconDecoration.backgroundColor,
+              iconColor: inputDecoration!.inputIconDecoration.iconColor,
+              iconData: Icons.calendar_month_sharp, // Set the icon data
+              svgIcon: null, // No SVG icon for this case
+            ),
+          ),
+        ),
       ];
     }
 
