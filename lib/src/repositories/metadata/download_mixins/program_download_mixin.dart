@@ -2,6 +2,7 @@ import 'package:dhis2_flutter_toolkit/src/models/metadata/sharing.dart';
 import 'package:dhis2_flutter_toolkit/src/repositories/metadata/option_group.dart';
 import 'package:dhis2_flutter_toolkit/src/repositories/metadata/option_group_set.dart';
 import 'package:dhis2_flutter_toolkit/src/repositories/metadata/sharing.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../models/metadata/program.dart';
 import '../../../services/client/client.dart';
@@ -157,8 +158,17 @@ mixin D2ProgramDownloadServiceMixin on BaseMetaDownloadServiceMixin<D2Program> {
           label: label);
       downloadController.add(status);
       for (final programId in programIds) {
-        await syncProgram(programId);
-        downloadController.add(status.increment());
+        try {
+          await syncProgram(programId);
+          downloadController.add(status.increment());
+        } catch (e) {
+          //TODO: Add a way to be notified when a program download fails
+          if (kDebugMode) {
+            print(
+                "Error downloading program: $programId. There is a TODO above this line. Work on it");
+          }
+          downloadController.add(status.increment());
+        }
       }
       downloadController.add(status.complete());
       downloadController.close();
