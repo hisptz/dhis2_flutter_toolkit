@@ -122,6 +122,9 @@ mixin D2ProgramDownloadServiceMixin on BaseMetaDownloadServiceMixin<D2Program> {
 
     await Future.forEach(metadataEntries,
         (MapEntry<String, dynamic> element) async {
+      if (element.value == null) {
+        return;
+      }
       if (element.key == "system") {
         return;
       }
