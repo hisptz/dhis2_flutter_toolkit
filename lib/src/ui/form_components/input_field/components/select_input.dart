@@ -25,7 +25,7 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
     D2InputFieldOption? valueOption = input.filteredOptions
         .firstWhereOrNull((D2InputFieldOption option) => option.code == value);
 
-    final bool shouldShowSearch = optionNames.length >= 6;
+    final bool shouldShowSearch = optionNames.length >= 10;
 
     return shouldShowSearch
         ? CustomDropdown<D2InputFieldOption>.search(
