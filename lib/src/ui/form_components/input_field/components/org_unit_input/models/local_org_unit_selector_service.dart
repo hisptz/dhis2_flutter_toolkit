@@ -93,6 +93,7 @@ class D2LocalOrgUnitSelectorService
             .code
             .contains(keyword, caseSensitive: false)
             .or(D2OrgUnit_.uid.contains(keyword, caseSensitive: false))));
-    return queryBuilder.build().find().map(getOrgUnitDataFromOrgUnit).toList();
+    List<D2OrgUnit> orgUnits = await queryBuilder.build().findAsync();
+    return orgUnits.map(getOrgUnitDataFromOrgUnit).toList();
   }
 }
