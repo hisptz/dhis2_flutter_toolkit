@@ -33,6 +33,8 @@ export "input_field/models/number_input_field.dart"
     show D2NumberInputFieldConfig;
 export "input_field/models/org_unit_input_field.dart"
     show D2OrgUnitInputFieldConfig;
+export "input_field/models/period_selector_input_field.dart"
+    show D2PeriodSelectorInputFieldConfig;
 export "input_field/models/select_input_field.dart"
     show D2SelectInputFieldConfig;
 export "input_field/models/text_input_field.dart" show D2TextInputFieldConfig;

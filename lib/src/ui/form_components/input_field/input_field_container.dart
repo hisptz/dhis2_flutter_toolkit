@@ -5,8 +5,10 @@ import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/input_field_legend.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/multi_select_input_field.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/multi_text_input_field.dart';
+import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/period_selector_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'components/age_input/age_input.dart';
 import 'components/base_input.dart';
 import 'components/boolean_input.dart';
@@ -15,6 +17,7 @@ import 'components/date_input.dart';
 import 'components/date_range_input.dart';
 import 'components/input_field_icon.dart';
 import 'components/org_unit_input/org_unit_input.dart';
+import 'components/period_selector_input.dart';
 import 'components/radio_input.dart';
 import 'components/select_input.dart';
 import 'components/text_input.dart';
@@ -135,6 +138,18 @@ class D2InputFieldContainer extends StatelessWidget {
           decoration: inputDecoration!,
         );
       }
+
+      if (input is D2PeriodSelectorInputFieldConfig) {
+        return PeriodSelectorInput(
+          disabled: disabled,
+          value: value,
+          input: input as D2PeriodSelectorInputFieldConfig,
+          color: colorOverride,
+          onChange: onChange,
+          decoration: inputDecoration!,
+        );
+      }
+
       if (input is D2NumberInputFieldConfig) {
         switch (input.type) {
           case D2InputFieldType.number:
@@ -163,15 +178,16 @@ class D2InputFieldContainer extends StatelessWidget {
           case D2InputFieldType.phoneNumber:
             return CustomTextInput(
               disabled: disabled,
-              textInputType: TextInputType
-                  .phone, // Use phone input type for mobile numbers
+              textInputType: TextInputType.phone,
+              // Use phone input type for mobile numbers
               input: input,
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(
-                    r'^[0-9\s()+-]*$')), // changes to Allow numbers, spaces, parentheses, and hyphens
+                FilteringTextInputFormatter.allow(RegExp(r'^[0-9\s()+-]*$')),
+                // changes to Allow numbers, spaces, parentheses, and hyphens
               ],
               value: value,
-              onChange: onChange, // Ensure that the value passed is a string
+              onChange: onChange,
+              // Ensure that the value passed is a string
               decoration: inputDecoration!,
               color: colorOverride,
             );
