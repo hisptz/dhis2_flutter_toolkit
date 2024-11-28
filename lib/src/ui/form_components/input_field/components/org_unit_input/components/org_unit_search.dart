@@ -157,7 +157,7 @@ class _OrgUnitSearchState extends State<OrgUnitSearch> {
                 Expanded(
                     child: OrgUnitSearchResults(
                         service: service,
-                        loading: false,
+                        loading: loading,
                         keyword: keyword,
                         multiple: multiple,
                         onSelect: toggleOrgUnitSelection,
@@ -175,10 +175,12 @@ class _OrgUnitSearchState extends State<OrgUnitSearch> {
               },
               child: const Text("Cancel")),
           TextButton(
-              onPressed: () {
-                widget.onSelect(selectedOrgUnits);
-                Navigator.of(context).pop();
-              },
+              onPressed: selectedOrgUnits.isEmpty
+                  ? null
+                  : () {
+                      widget.onSelect(selectedOrgUnits);
+                      Navigator.of(context).pop();
+                    },
               child: const Text("Select")),
         ]);
   }
