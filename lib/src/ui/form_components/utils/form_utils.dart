@@ -90,21 +90,22 @@ class D2FormUtils {
     }
     if (D2InputFieldType.isNumber(type)) {
       return D2NumberInputFieldConfig(
-          label: label,
-          type: type,
-          name: name,
-          mandatory: mandatory,
-          clearable: clearable ?? false,
-          legends: getLegends());
-    }
-    if (D2InputFieldType.isText(type)) {
-      return D2TextInputFieldConfig(
         label: label,
         type: type,
         name: name,
         mandatory: mandatory,
         clearable: clearable ?? false,
+        legends: getLegends(),
       );
+    }
+    if (D2InputFieldType.isText(type)) {
+      return D2TextInputFieldConfig(
+          label: label,
+          type: type,
+          name: name,
+          mandatory: mandatory,
+          clearable: clearable ?? false,
+          fieldMask: dataItem.fieldMask);
     }
 
     switch (type) {
@@ -150,12 +151,12 @@ class D2FormUtils {
             service: D2LocalOrgUnitSelectorService(db));
       default:
         return D2BaseInputFieldConfig(
-          label: label,
-          type: type,
-          name: name,
-          mandatory: mandatory,
-          clearable: clearable ?? false,
-        );
+            label: label,
+            type: type,
+            name: name,
+            mandatory: mandatory,
+            clearable: clearable ?? false,
+            fieldMask: dataItem.fieldMask);
     }
   }
 // }

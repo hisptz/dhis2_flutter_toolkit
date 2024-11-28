@@ -20,6 +20,7 @@ class D2TrackedEntityAttribute extends D2MetaResource {
   @Unique()
   String uid;
 
+  String? fieldMask;
   String name;
   String? code;
   String? pattern;
@@ -49,6 +50,7 @@ class D2TrackedEntityAttribute extends D2MetaResource {
       this.zeroIsSignificant,
       this.generated,
       this.pattern,
+      this.fieldMask,
       this.optionSetValue);
 
   D2TrackedEntityAttribute.fromMap(D2ObjectBox db, Map json)
@@ -58,6 +60,7 @@ class D2TrackedEntityAttribute extends D2MetaResource {
         name = json["name"],
         code = json["code"],
         formName = json["formName"],
+        fieldMask = json["fieldMask"],
         shortName = json["shortName"],
         displayName = json["displayName"],
         displayFormName = json["displayFormName"],

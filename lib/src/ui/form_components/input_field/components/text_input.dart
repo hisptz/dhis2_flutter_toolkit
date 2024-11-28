@@ -41,10 +41,20 @@ class CustomTextInput
 
 class TextInputState extends BaseStatefulInputState<CustomTextInput> {
   late TextEditingController controller;
+  List<TextInputFormatter> inputFormatters = [];
 
   @override
   void initState() {
     controller = TextEditingController(text: widget.value);
+    String? fieldMask = widget.input.fieldMask;
+    inputFormatters.addAll(widget.inputFormatters);
+    if (fieldMask != null) {
+      inputFormatters.add(
+        FilteringTextInputFormatter.allow(RegExp(
+            fieldMask)), // changes to Allow numbers, spaces, parentheses, and hyphens
+      );
+    }
+
     super.initState();
   }
 
@@ -61,7 +71,7 @@ class TextInputState extends BaseStatefulInputState<CustomTextInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      inputFormatters: widget.inputFormatters,
+      inputFormatters: inputFormatters,
       controller: controller,
       cursorColor: widget.decoration.colorScheme.active,
       enabled: !widget.disabled,
