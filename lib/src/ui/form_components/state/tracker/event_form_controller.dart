@@ -55,11 +55,17 @@ class D2TrackerEventFormController extends D2FormController
     this.event = event;
   }
 
-  void initializeProgramRuleEngine(D2Program program) {
+  void initializeProgramRuleEngine(D2Program program,
+      {D2ProgramStage? specifiedProgramStage}) {
     List<D2ProgramRule> programRules = program.programRules
-        .where((rule) =>
-            rule.programStage.targetId == 0 ||
-            rule.programStage.targetId == programStage.id)
+        .where(
+          (rule) =>
+              rule.programStage.targetId == 0 ||
+              rule.programStage.targetId ==
+                  (specifiedProgramStage != null
+                      ? specifiedProgramStage.id
+                      : programStage.id),
+        )
         .toList();
     List<D2ProgramRuleVariable> programRuleVariables =
         program.programRuleVariables;
