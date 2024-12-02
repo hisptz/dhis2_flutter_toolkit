@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
+import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/components/bar_code_scanner_input.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/components/multi_select_input.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/components/multi_text_input.dart';
+import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/bar_code_scanner_input_field.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/input_decoration_container.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/input_field_legend.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/multi_select_input_field.dart';
@@ -276,6 +278,16 @@ class D2InputFieldContainer extends StatelessWidget {
               decoration: inputDecoration!,
             );
         }
+      }
+      if (input is D2BarCodeScannerInputFieldConfig) {
+        return BarCodeScannerInput(
+          disabled: disabled,
+          onChange: onChange,
+          value: value,
+          input: input as D2BarCodeScannerInputFieldConfig,
+          color: colorOverride,
+          decoration: inputDecoration!,
+        );
       }
       if (input is D2BooleanInputFieldConfig) {
         return BooleanInput(
