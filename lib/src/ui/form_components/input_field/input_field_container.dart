@@ -162,13 +162,18 @@ class D2InputFieldContainer extends StatelessWidget {
                 decoration: inputDecoration!,
                 color: colorOverride);
           case D2InputFieldType.phoneNumber:
+             String fieldMask = "^[0-9+\\-() ]{0,10}";
             return CustomTextInput(
               disabled: disabled,
-              textInputType: TextInputType
-                  .phone, // Use phone input type for mobile numbers
+              textInputType: TextInputType.phone,
               input: input,
               value: value,
-              onChange: onChange, // Ensure that the value passed is a string
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp(fieldMask),
+                ),
+              ],
+              onChange: onChange,  
               decoration: inputDecoration!,
               color: colorOverride,
             );

@@ -49,12 +49,8 @@ class TextInputState extends BaseStatefulInputState<CustomTextInput> {
     String? fieldMask = widget.input.fieldMask;
     inputFormatters.addAll(widget.inputFormatters);
     if (fieldMask != null) {
-      inputFormatters.add(
-        FilteringTextInputFormatter.allow(RegExp(
-            fieldMask)), // changes to Allow numbers, spaces, parentheses, and hyphens
-      );
+      inputFormatters.add(FilteringTextInputFormatter.allow(RegExp(fieldMask)));
     }
-
     super.initState();
   }
 
