@@ -9,6 +9,7 @@ class D2FormUtils {
     bool mandatory = false,
     bool? allowFutureDates,
     bool? renderOptionsAsRadio,
+    String? renderType,
     D2ObjectBox? db,
     bool? clearable,
   }) {
@@ -105,7 +106,8 @@ class D2FormUtils {
           name: name,
           mandatory: mandatory,
           clearable: clearable ?? false,
-          fieldMask: dataItem.fieldMask);
+          fieldMask: dataItem.fieldMask,
+          renderType: renderType);
     }
 
     switch (type) {
