@@ -93,6 +93,7 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
                     style: isSelected ? TextStyle(color: color) : null),
               );
             },
+            overlayHeight: 400,
             itemsListPadding: const EdgeInsets.all(0.0),
             listItemPadding: const EdgeInsets.all(0.0),
             initialItem: valueOption,
