@@ -35,6 +35,7 @@ class D2TrackerEventFormUtil {
           db: db,
           mandatory: programStageDataElement.compulsory,
           allowFutureDates: programStageDataElement.allowFutureDate,
+          renderType: programStageDataElement.renderType,
           renderOptionsAsRadio: programStageDataElement.renderOptionsAsRadio)
         ..clearable = options.clearable;
     }).toList();
