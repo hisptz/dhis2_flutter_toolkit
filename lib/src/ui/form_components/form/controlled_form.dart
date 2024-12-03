@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/form_section/form_section_container_with_controlled_inputs.dart';
 import 'package:flutter/material.dart';
+
 import '../state/section_state.dart';
 
 class D2ControlledForm extends StatelessWidget {
@@ -10,22 +11,22 @@ class D2ControlledForm extends StatelessWidget {
   final Color? color;
   final bool disabled;
 
-  const D2ControlledForm(
+  D2ControlledForm(
       {super.key,
       required this.form,
       required this.controller,
       this.color,
-      this.disabled = false});
-
-  @override
-  Widget build(BuildContext context) {
+      this.disabled = false}) {
     List<D2BaseInputFieldConfig> formFields = [
       ...(form.sections?.map((section) => section.fields).flattened.toList() ??
           []),
       ...(form.fields ?? [])
     ];
     controller.setFormFields(formFields);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

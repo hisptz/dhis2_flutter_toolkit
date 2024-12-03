@@ -9,9 +9,11 @@ class D2BaseInputFieldConfig {
   D2InputFieldType type;
   bool mandatory;
   bool clearable;
+  bool isCalendar;
   IconData? icon;
   String? svgIconAsset;
   List<D2InputFieldLegend>? legends;
+  String? fieldMask;
 
   D2BaseInputFieldConfig(
       {required this.label,
@@ -21,5 +23,7 @@ class D2BaseInputFieldConfig {
       this.icon,
       this.svgIconAsset,
       this.legends,
-      this.clearable = false});
+        this.fieldMask,
+      this.clearable = false,
+      this.isCalendar = false});
 }

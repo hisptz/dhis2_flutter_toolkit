@@ -7,6 +7,7 @@ import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/multi_text_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'components/age_input/age_input.dart';
 import 'components/base_input.dart';
 import 'components/boolean_input.dart';
@@ -161,17 +162,18 @@ class D2InputFieldContainer extends StatelessWidget {
                 decoration: inputDecoration!,
                 color: colorOverride);
           case D2InputFieldType.phoneNumber:
+             String fieldMask = "^[0-9+\\-() ]{0,10}";
             return CustomTextInput(
               disabled: disabled,
-              textInputType: TextInputType
-                  .phone, // Use phone input type for mobile numbers
+              textInputType: TextInputType.phone,
               input: input,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(
-                    r'^[0-9\s()+-]*$')), // changes to Allow numbers, spaces, parentheses, and hyphens
-              ],
               value: value,
-              onChange: onChange, // Ensure that the value passed is a string
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp(fieldMask),
+                ),
+              ],
+              onChange: onChange,  
               decoration: inputDecoration!,
               color: colorOverride,
             );
@@ -362,6 +364,19 @@ class D2InputFieldContainer extends StatelessWidget {
             icon: Icon(
               Icons.clear,
               color: inputDecoration!.colorScheme.text,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: input.isCalendar && !disabled,
+          child: Container(
+            constraints: inputDecoration!.inputIconDecoration.iconConstraints,
+            child: InputFieldIcon(
+              backgroundColor:
+                  inputDecoration!.inputIconDecoration.backgroundColor,
+              iconColor: inputDecoration!.inputIconDecoration.iconColor,
+              iconData: Icons.calendar_month_sharp, // Set the icon data
+              svgIcon: null, // No SVG icon for this case
             ),
           ),
         ),

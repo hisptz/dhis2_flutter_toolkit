@@ -21,18 +21,6 @@ class D2ProgramRepository extends BaseMetaRepository<D2Program>
     return D2Program.fromMap(db, json);
   }
 
-  // @override
-  // Future<List<D2Program>> saveOffline(List<Map<String, dynamic>> json) async {
-  //   List<D2Program> entities = json.map(mapper).toList();
-  //   List<D2Program> savedEntities = await box.putAndGetManyAsync(entities);
-  //   List<D2Sharing> sharing = savedEntities.map((savedProgram) {
-  //     Map<String, dynamic> programObject =
-  //         json.firstWhere((programObj) => programObj['id'] == savedProgram.uid);
-  //     Map<String, dynamic> sharingObject = programObject['sharing'];
-  //     return D2Sharing.fromMap(sharingObject, program: savedProgram);
-  //   }).toList();
-  // }
-
   D2ProgramRepository byIdentifiableToken(String keyword) {
     queryConditions = D2Program_.uid
         .equals(keyword)

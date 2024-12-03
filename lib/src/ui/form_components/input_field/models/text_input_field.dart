@@ -6,7 +6,9 @@ class D2TextInputFieldConfig extends D2BaseInputFieldConfig {
       required super.type,
       required super.name,
       required super.mandatory,
+      super.fieldMask,
       super.clearable,
+      super.isCalendar,
       super.icon,
       super.legends,
       super.svgIconAsset});

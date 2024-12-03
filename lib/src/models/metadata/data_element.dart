@@ -16,6 +16,7 @@ class D2DataElement extends D2MetaResource {
   String? code;
   String? displayFormName;
   String? displayName;
+  String? fieldMask;
 
   String? formName;
   String shortName;
@@ -45,6 +46,7 @@ class D2DataElement extends D2MetaResource {
       this.zeroIsSignificant,
       this.displayFormName,
       this.displayName,
+      this.fieldMask,
       this.optionSetValue);
 
   D2DataElement.fromMap(D2ObjectBox db, Map json)
@@ -54,6 +56,7 @@ class D2DataElement extends D2MetaResource {
         name = json["name"],
         code = json["code"],
         formName = json["formName"],
+        fieldMask = json["fieldMask"],
         shortName = json["shortName"],
         description = json["description"],
         aggregationType = json["aggregationType"],

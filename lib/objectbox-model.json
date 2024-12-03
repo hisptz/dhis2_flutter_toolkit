@@ -35,7 +35,7 @@
     },
     {
       "id": "2:257964529443086557",
-      "lastPropertyId": "18:5732288414901900425",
+      "lastPropertyId": "19:7724359701145864657",
       "name": "D2DataElement",
       "properties": [
         {
@@ -136,6 +136,11 @@
           "flags": 520,
           "indexId": "95:5418199369240187784",
           "relationTarget": "D2CategoryCombo"
+        },
+        {
+          "id": "19:7724359701145864657",
+          "name": "fieldMask",
+          "type": 9
         }
       ],
       "relations": [
@@ -813,7 +818,7 @@
     },
     {
       "id": "13:842731617041164856",
-      "lastPropertyId": "16:3894243653883032566",
+      "lastPropertyId": "17:7682698038521325042",
       "name": "D2Program",
       "properties": [
         {
@@ -903,6 +908,11 @@
         {
           "id": "16:3894243653883032566",
           "name": "code",
+          "type": 9
+        },
+        {
+          "id": "17:7682698038521325042",
+          "name": "description",
           "type": 9
         }
       ],
@@ -1918,7 +1928,7 @@
     },
     {
       "id": "26:4451857861000713264",
-      "lastPropertyId": "18:2053788943538647789",
+      "lastPropertyId": "19:8193621496120824909",
       "name": "D2TrackedEntityAttribute",
       "properties": [
         {
@@ -2016,6 +2026,11 @@
           "id": "18:2053788943538647789",
           "name": "optionSetValue",
           "type": 1
+        },
+        {
+          "id": "19:8193621496120824909",
+          "name": "fieldMask",
+          "type": 9
         }
       ],
       "relations": [

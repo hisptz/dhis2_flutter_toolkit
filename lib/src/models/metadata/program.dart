@@ -32,6 +32,7 @@ class D2Program extends D2MetaResource {
   String name;
   String shortName;
   String accessLevel;
+  String? description;
 
   String? featureType;
 
@@ -81,7 +82,8 @@ class D2Program extends D2MetaResource {
       this.onlyEnrollOnce,
       this.displayName,
       this.code,
-      this.featureType);
+      this.featureType,
+      this.description,);
 
   D2Program.fromMap(D2ObjectBox db, Map json)
       : created = DateTime.parse(json["created"] ?? json["createdAt"]),
@@ -89,6 +91,7 @@ class D2Program extends D2MetaResource {
         uid = json["id"],
         displayName = json["displayName"],
         accessLevel = json["accessLevel"],
+        description = json["description"],
         name = json["name"],
         shortName = json["shortName"],
         code = json["code"] ?? "",
