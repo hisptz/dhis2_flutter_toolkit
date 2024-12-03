@@ -5,7 +5,7 @@ import 'base_input.dart';
 import 'input_field_icon.dart';
 
 class BarCodeScannerInput
-    extends BaseStatelessInput<D2BarCodeScannerInputFieldConfig, String> {
+    extends BaseStatelessInput<D2BaseInputFieldConfig, String> {
   BarCodeScannerInput(
       {super.key,
       super.disabled,
