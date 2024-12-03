@@ -1,6 +1,8 @@
 import 'base_input_field.dart';
 
 class D2TextInputFieldConfig extends D2BaseInputFieldConfig {
+  String? renderType;
+
   D2TextInputFieldConfig(
       {required super.label,
       required super.type,
@@ -11,5 +13,6 @@ class D2TextInputFieldConfig extends D2BaseInputFieldConfig {
       super.isCalendar,
       super.icon,
       super.legends,
-      super.svgIconAsset});
+      super.svgIconAsset,
+      this.renderType});
 }
