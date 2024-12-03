@@ -36,8 +36,6 @@ export "input_field/models/org_unit_input_field.dart"
 export "input_field/models/select_input_field.dart"
     show D2SelectInputFieldConfig;
 export "input_field/models/text_input_field.dart" show D2TextInputFieldConfig;
-export "input_field/models/bar_code_scanner_input_field.dart"
-    show D2BarCodeScannerInputFieldConfig;
 export "input_field/models/true_only_input_field.dart";
 export "state/aggregate/data_set_controller.dart"
     show D2DataSetStateFormController;
