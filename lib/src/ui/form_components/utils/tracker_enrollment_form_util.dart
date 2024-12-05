@@ -36,6 +36,7 @@ class D2TrackerEnrollmentFormUtil {
         mandatory: programAttribute.mandatory,
         allowFutureDates: programAttribute.allowFutureDate,
         renderOptionsAsRadio: programAttribute.renderOptionsAsRadio,
+        renderType: programAttribute.renderType,
         clearable: options.clearable,
         db: db,
       );

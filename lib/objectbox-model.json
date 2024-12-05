@@ -1352,7 +1352,7 @@
     },
     {
       "id": "19:7771080830110018479",
-      "lastPropertyId": "11:4031633498396257565",
+      "lastPropertyId": "12:809578978475411163",
       "name": "D2ProgramStageDataElement",
       "properties": [
         {
@@ -1416,6 +1416,11 @@
           "id": "11:4031633498396257565",
           "name": "renderOptionsAsRadio",
           "type": 1
+        },
+        {
+          "id": "12:809578978475411163",
+          "name": "renderType",
+          "type": 9
         }
       ],
       "relations": []
@@ -1476,7 +1481,7 @@
     },
     {
       "id": "21:8176256693588210311",
-      "lastPropertyId": "15:247008769906904472",
+      "lastPropertyId": "16:4280924954497771569",
       "name": "D2ProgramTrackedEntityAttribute",
       "properties": [
         {
@@ -1555,6 +1560,11 @@
           "id": "15:247008769906904472",
           "name": "renderOptionsAsRadio",
           "type": 1
+        },
+        {
+          "id": "16:4280924954497771569",
+          "name": "renderType",
+          "type": 9
         }
       ],
       "relations": []

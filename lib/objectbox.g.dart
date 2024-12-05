@@ -1437,7 +1437,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(19, 7771080830110018479),
       name: 'D2ProgramStageDataElement',
-      lastPropertyId: const obx_int.IdUid(11, 4031633498396257565),
+      lastPropertyId: const obx_int.IdUid(12, 809578978475411163),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -1498,6 +1498,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(11, 4031633498396257565),
             name: 'renderOptionsAsRadio',
             type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 809578978475411163),
+            name: 'renderType',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -1562,7 +1567,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(21, 8176256693588210311),
       name: 'D2ProgramTrackedEntityAttribute',
-      lastPropertyId: const obx_int.IdUid(15, 247008769906904472),
+      lastPropertyId: const obx_int.IdUid(16, 4280924954497771569),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -1638,6 +1643,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(15, 247008769906904472),
             name: 'renderOptionsAsRadio',
             type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 4280924954497771569),
+            name: 'renderType',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -5218,7 +5228,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final displayNameOffset = object.displayName == null
               ? null
               : fbb.writeString(object.displayName!);
-          fbb.startTable(12);
+          final renderTypeOffset = object.renderType == null
+              ? null
+              : fbb.writeString(object.renderType!);
+          fbb.startTable(13);
           fbb.addInt64(0, object.created.millisecondsSinceEpoch);
           fbb.addInt64(1, object.id);
           fbb.addInt64(2, object.lastUpdated.millisecondsSinceEpoch);
@@ -5230,6 +5243,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(8, displayNameOffset);
           fbb.addBool(9, object.allowFutureDate);
           fbb.addBool(10, object.renderOptionsAsRadio);
+          fbb.addOffset(11, renderTypeOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -5255,6 +5269,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
                   .vTableGetNullable(buffer, rootOffset, 20);
           final renderOptionsAsRadioParam =
               const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 24);
+          final renderTypeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 26);
           final object = D2ProgramStageDataElement(
               createdParam,
               idParam,
@@ -5264,7 +5280,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               sortOrderParam,
               allowFutureDateParam,
               displayNameParam,
-              renderOptionsAsRadioParam);
+              renderOptionsAsRadioParam,
+              renderTypeParam);
           object.programStage.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
           object.programStage.attach(store);
@@ -5352,7 +5369,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final displayNameOffset = object.displayName == null
               ? null
               : fbb.writeString(object.displayName!);
-          fbb.startTable(16);
+          final renderTypeOffset = object.renderType == null
+              ? null
+              : fbb.writeString(object.renderType!);
+          fbb.startTable(17);
           fbb.addInt64(0, object.created.millisecondsSinceEpoch);
           fbb.addInt64(1, object.id);
           fbb.addInt64(2, object.lastUpdated.millisecondsSinceEpoch);
@@ -5367,6 +5387,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addBool(12, object.allowFutureDate);
           fbb.addBool(13, object.optionSetValue);
           fbb.addBool(14, object.renderOptionsAsRadio);
+          fbb.addOffset(15, renderTypeOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -5395,6 +5416,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 28);
           final optionSetValueParam =
               const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 30);
+          final renderTypeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 34);
           final object = D2ProgramTrackedEntityAttribute(
               createdParam,
               idParam,
@@ -5406,7 +5429,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               searchableParam,
               renderOptionsAsRadioParam,
               allowFutureDateParam,
-              optionSetValueParam)
+              optionSetValueParam,
+              renderTypeParam)
             ..displayName = const fb.StringReader(asciiOptimization: true)
                 .vTableGetNullable(buffer, rootOffset, 26);
           object.program.targetId =
@@ -8515,6 +8539,10 @@ class D2ProgramStageDataElement_ {
   static final renderOptionsAsRadio =
       obx.QueryBooleanProperty<D2ProgramStageDataElement>(
           _entities[17].properties[10]);
+
+  /// See [D2ProgramStageDataElement.renderType].
+  static final renderType = obx.QueryStringProperty<D2ProgramStageDataElement>(
+      _entities[17].properties[11]);
 }
 
 /// [D2ProgramStageSection] entity fields to define ObjectBox queries.
@@ -8626,6 +8654,11 @@ class D2ProgramTrackedEntityAttribute_ {
   static final renderOptionsAsRadio =
       obx.QueryBooleanProperty<D2ProgramTrackedEntityAttribute>(
           _entities[19].properties[13]);
+
+  /// See [D2ProgramTrackedEntityAttribute.renderType].
+  static final renderType =
+      obx.QueryStringProperty<D2ProgramTrackedEntityAttribute>(
+          _entities[19].properties[14]);
 }
 
 /// [D2Relationship] entity fields to define ObjectBox queries.

@@ -26,6 +26,7 @@ class D2ProgramStageDataElement extends D2MetaResource {
   int? sortOrder;
   bool? allowFutureDate;
   bool? renderOptionsAsRadio;
+  String? renderType;
 
   final programStage = ToOne<D2ProgramStage>();
   final dataElement = ToOne<D2DataElement>();
@@ -39,7 +40,8 @@ class D2ProgramStageDataElement extends D2MetaResource {
       this.sortOrder,
       this.allowFutureDate,
       this.displayName,
-      this.renderOptionsAsRadio);
+      this.renderOptionsAsRadio,
+      this.renderType);
 
   D2ProgramStageDataElement.fromMap(D2ObjectBox db, Map json)
       : uid = json["id"],
@@ -48,7 +50,8 @@ class D2ProgramStageDataElement extends D2MetaResource {
         compulsory = json["compulsory"],
         sortOrder = json["sortOrder"],
         allowFutureDate = json["allowFutureDate"],
-        renderOptionsAsRadio = json["renderOptionsAsRadio"] {
+        renderOptionsAsRadio = json["renderOptionsAsRadio"],
+        renderType = json["renderType"]?["MOBILE"]?["type"] {
     id = D2ProgramStageDataElementRepository(db).getIdByUid(json["id"]) ?? 0;
     dataElement.target =
         D2DataElementRepository(db).getByUid(json["dataElement"]["id"]);

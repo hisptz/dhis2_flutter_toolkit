@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/components/bar_code_scanner_input.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/components/multi_select_input.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/components/multi_text_input.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/input_decoration_container.dart';
@@ -43,6 +44,7 @@ class D2InputFieldContainer extends StatelessWidget {
   final String? error;
   final String? warning;
   final bool? mandatory;
+
   final bool disabled;
   D2InputDecoration? inputDecoration;
 
@@ -176,18 +178,23 @@ class D2InputFieldContainer extends StatelessWidget {
                 decoration: inputDecoration!,
                 color: colorOverride);
           case D2InputFieldType.phoneNumber:
+            String fieldMask = "^[0-9+\\-() ]{0,10}";
             return CustomTextInput(
               disabled: disabled,
               textInputType: TextInputType.phone,
-              // Use phone input type for mobile numbers
+
               input: input,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'^[0-9\s()+-]*$')),
                 // changes to Allow numbers, spaces, parentheses, and hyphens
               ],
               value: value,
-              onChange: onChange,
-              // Ensure that the value passed is a string
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp(fieldMask),
+                ),
+              ],onChange: onChange,
+
               decoration: inputDecoration!,
               color: colorOverride,
             );
@@ -262,23 +269,35 @@ class D2InputFieldContainer extends StatelessWidget {
           case D2InputFieldType.longText:
           case D2InputFieldType.email:
           case D2InputFieldType.url:
-            return CustomTextInput(
-              decoration: inputDecoration!,
-              disabled: disabled,
-              onChange: onChange,
-              value: value,
-              input: input,
-              color: colorOverride,
-              maxLines: D2InputFieldType.longText == input.type ? null : 1,
-              textInputType: [D2InputFieldType.text, D2InputFieldType.longText]
-                      .contains(input.type)
-                  ? TextInputType.text
-                  : [D2InputFieldType.email].contains(input.type)
-                      ? TextInputType.emailAddress
-                      : [D2InputFieldType.url].contains(input.type)
-                          ? TextInputType.url
-                          : TextInputType.text,
-            );
+            return (input as D2TextInputFieldConfig).renderType == "BAR_CODE"
+                ? BarCodeScannerInput(
+                    disabled: disabled,
+                    onChange: onChange,
+                    value: value,
+                    input: input,
+                    color: colorOverride,
+                    decoration: inputDecoration!,
+                  )
+                : CustomTextInput(
+                    decoration: inputDecoration!,
+                    disabled: disabled,
+                    onChange: onChange,
+                    value: value,
+                    input: input,
+                    color: colorOverride,
+                    maxLines:
+                        D2InputFieldType.longText == input.type ? null : 1,
+                    textInputType: [
+                      D2InputFieldType.text,
+                      D2InputFieldType.longText
+                    ].contains(input.type)
+                        ? TextInputType.text
+                        : [D2InputFieldType.email].contains(input.type)
+                            ? TextInputType.emailAddress
+                            : [D2InputFieldType.url].contains(input.type)
+                                ? TextInputType.url
+                                : TextInputType.text,
+                  );
           default:
             return CustomTextInput(
               disabled: disabled,
@@ -291,6 +310,7 @@ class D2InputFieldContainer extends StatelessWidget {
             );
         }
       }
+
       if (input is D2BooleanInputFieldConfig) {
         return BooleanInput(
           disabled: disabled,
