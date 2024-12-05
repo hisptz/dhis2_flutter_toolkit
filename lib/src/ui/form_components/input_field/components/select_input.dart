@@ -32,11 +32,12 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
             labelText: 'Search here',
           ),
         ),
-        fit: FlexFit
-            .tight, 
+        fit: FlexFit.tight,
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height *
-              0.5,
+          maxHeight: optionNames.length * 50.0 >
+                  MediaQuery.of(context).size.height * 0.5
+              ? MediaQuery.of(context).size.height * 0.5
+              : optionNames.length * 60.0,
         ),
       ),
       decoratorProps: const DropDownDecoratorProps(
