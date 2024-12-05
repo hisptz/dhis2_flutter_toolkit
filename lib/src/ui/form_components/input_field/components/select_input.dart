@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 import '../models/input_field_option.dart';
 import '../models/select_input_field.dart';
@@ -20,50 +19,44 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem<D2InputFieldOption>> options =
-        input.filteredOptions.map((D2InputFieldOption option) {
-      bool isSelected = option.code == value;
-      return DropdownMenuItem<D2InputFieldOption>(
-        value: option,
-        child: Text(
-          option.name,
-          style: TextStyle(color: isSelected ? color : null),
-        ),
-      );
-    }).toList();
-
+    List<D2InputFieldOption> optionNames = input.filteredOptions;
     D2InputFieldOption? valueOption = input.filteredOptions
         .firstWhereOrNull((D2InputFieldOption option) => option.code == value);
-    return DropdownButton<D2InputFieldOption>(
-      alignment: Alignment.centerLeft,
-      underline: Container(
-        height: 0,
-        color: Colors.transparent,
-      ),
-      iconEnabledColor: color,
-      selectedItemBuilder: (context) => input.filteredOptions
-          .map((e) => Align(
-                alignment: Alignment.centerLeft,
-                child: Text(e.name),
-              ))
-          .toList(),
-      value: valueOption,
-      focusColor: decoration.colorScheme.active.withOpacity(0.1),
-      items: options,
-      iconDisabledColor: Colors.grey,
-      icon: Transform.rotate(
-        angle: -(pi / 2),
-        child: const Icon(
-          Icons.chevron_left,
-          size: 32,
+    final bool shouldShowSearch = optionNames.length >= 10;
+    return DropdownSearch<D2InputFieldOption>(
+      popupProps: PopupProps.menu(
+        showSearchBox: shouldShowSearch,
+        searchFieldProps: const TextFieldProps(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Search here',
+          ),
+        ),
+        fit: FlexFit
+            .tight, 
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height *
+              0.5,
         ),
       ),
-      isExpanded: true,
+      decoratorProps: const DropDownDecoratorProps(
+          decoration: InputDecoration(
+        border: InputBorder.none,
+      )),
+      enabled: !disabled,
+      itemAsString: (D2InputFieldOption option) => option.name,
+      items: (filter, loadProps) {
+        return optionNames;
+      },
+      compareFn: (D2InputFieldOption? item, D2InputFieldOption? selectedItem) {
+        return item?.name == selectedItem?.name;
+      },
       onChanged: disabled
           ? null
           : (D2InputFieldOption? selectedOption) {
               onChange(selectedOption?.code);
             },
+      selectedItem: valueOption,
     );
   }
 }
