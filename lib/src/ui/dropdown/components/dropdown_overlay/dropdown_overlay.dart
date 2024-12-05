@@ -190,7 +190,6 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     );
   }
 
-   
   double widgetBottomHeight = 0;
   @override
   void initState() {
@@ -201,9 +200,6 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
       final render2 = key2.currentContext?.findRenderObject() as RenderBox;
       final screenHeight = MediaQuery.of(context).size.height;
       double y = render1.localToGlobal(Offset.zero).dy;
-      print('****render1.size.height ${render1.size.height}');
-      print('****render2.size.height ${render2.size.height}');
-      print('****y $y');
       if (screenHeight - y < render2.size.height) {
         displayOverlayBottom = false;
 
@@ -212,11 +208,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
       setState(() {
         widgetBottomHeight = screenHeight - y;
       });
-    
-      print('****displayOverlayBottom $displayOverlayBottom');
     });
-    print(WidgetsBinding
-        .instance.platformDispatcher.views.first.viewInsets.bottom);
    
     selectedItem = widget.selectedItemNotifier.value;
     selectedItems = widget.selectedItemsNotifier.value;
@@ -234,7 +226,6 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     }
   }
 
- 
   @override
   void dispose() {
     widget.selectedItemNotifier.removeListener(singleSelectListener);
@@ -275,36 +266,31 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     bool isKeyboardShowing = WidgetsBinding
             .instance.platformDispatcher.views.first.viewInsets.bottom >
         0;
-    double keyboardHeight = WidgetsBinding
-        .instance.platformDispatcher.views.first.viewInsets.bottom;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double artHeight = screenHeight * 0.4;
-    print('*screenHeight $screenHeight');
-    print('*artHeight $artHeight');
-    
-     
-    print('*Height from bottom: ${widgetBottomHeight.toStringAsFixed(1)} px');
 
-    double height = keyboardHeight + 30.0;
-    if (keyboardHeight > screenHeight) {
-      height = (keyboardHeight + 30) - screenHeight;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double artHeight;
+    if (screenHeight > 800) {
+      artHeight = screenHeight * 0.3;
+    } else {
+      artHeight = screenHeight * 0.4;
+    }
+
+    double height = -10;
+    if (isKeyboardShowing && displayOverlayBottom) {
+      if (screenHeight < 800) {
+        if ((screenHeight * 0.58) > widgetBottomHeight) {
+          height = -((screenHeight * 0.58) - widgetBottomHeight) - 30;
+        }
+      }
     }
     // overlay offset
     final overlayOffset = Offset(
         -16,
         displayOverlayBottom
-            ? -10
+            ? height
             : isKeyboardShowing
                 ? (-1 * (artHeight - widgetBottomHeight))
                 : 64);
-
-    // final overlayOffset = Offset(
-    //     -10,
-    //     displayOverlayBottom && !isKeyboardShowing
-    //         ? 0
-    //         : isKeyboardShowing
-    //             ? -30
-    //             : 64);
     // list padding
     final listPadding =
         onSearch ? const EdgeInsets.only(top: 8) : EdgeInsets.zero;
