@@ -6,6 +6,7 @@ import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/input_field_legend.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/multi_select_input_field.dart';
 import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/multi_text_input_field.dart';
+import 'package:dhis2_flutter_toolkit/src/ui/form_components/input_field/models/period_selector_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,6 +18,7 @@ import 'components/date_input.dart';
 import 'components/date_range_input.dart';
 import 'components/input_field_icon.dart';
 import 'components/org_unit_input/org_unit_input.dart';
+import 'components/period_selector_input.dart';
 import 'components/radio_input.dart';
 import 'components/select_input.dart';
 import 'components/text_input.dart';
@@ -138,6 +140,18 @@ class D2InputFieldContainer extends StatelessWidget {
           decoration: inputDecoration!,
         );
       }
+
+      if (input is D2PeriodSelectorInputFieldConfig) {
+        return PeriodSelectorInput(
+          disabled: disabled,
+          value: value,
+          input: input as D2PeriodSelectorInputFieldConfig,
+          color: colorOverride,
+          onChange: onChange,
+          decoration: inputDecoration!,
+        );
+      }
+
       if (input is D2NumberInputFieldConfig) {
         switch (input.type) {
           case D2InputFieldType.number:
