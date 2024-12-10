@@ -1,6 +1,8 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/material.dart';
 
 import '../models/input_field_option.dart';
 import '../models/select_input_field.dart';
@@ -24,6 +26,23 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
         .firstWhereOrNull((D2InputFieldOption option) => option.code == value);
     final bool shouldShowSearch = optionNames.length >= 10;
     return DropdownSearch<D2InputFieldOption>(
+      suffixProps: DropdownSuffixProps(
+          dropdownButtonProps: DropdownButtonProps(
+        iconClosed: Transform.rotate(
+          angle: -(pi / 2),
+          child: const Icon(
+            Icons.chevron_left,
+            size: 32,
+          ),
+        ),
+        iconOpened: Transform.rotate(
+          angle: (pi / 2),
+          child: const Icon(
+            Icons.chevron_left,
+            size: 32,
+          ),
+        ),
+      )),
       popupProps: PopupProps.menu(
         showSearchBox: shouldShowSearch,
         searchFieldProps: const TextFieldProps(
