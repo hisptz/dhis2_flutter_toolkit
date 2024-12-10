@@ -182,19 +182,14 @@ class D2InputFieldContainer extends StatelessWidget {
             return CustomTextInput(
               disabled: disabled,
               textInputType: TextInputType.phone,
-
               input: input,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^[0-9\s()+-]*$')),
-                // changes to Allow numbers, spaces, parentheses, and hyphens
-              ],
               value: value,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(
                   RegExp(fieldMask),
                 ),
-              ],onChange: onChange,
-
+              ],
+              onChange: onChange,
               decoration: inputDecoration!,
               color: colorOverride,
             );
