@@ -46,6 +46,7 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
       popupProps: PopupProps.menu(
         showSearchBox: shouldShowSearch,
         searchFieldProps: const TextFieldProps(
+          autofocus: true,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Search here',
