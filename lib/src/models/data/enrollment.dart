@@ -170,8 +170,8 @@ class D2Enrollment extends SyncDataSource
   @override
   void updateFromFormValues(Map<String, dynamic> values,
       {required D2ObjectBox db, D2Program? program, D2OrgUnit? orgUnit}) {
-    occurredAt = DateTime.tryParse(values["occurredAt"]) ?? occurredAt;
-    enrolledAt = DateTime.tryParse(values["enrolledAt"]) ?? enrolledAt;
+    occurredAt = DateTime.tryParse(values["occurredAt"] ?? '') ?? occurredAt;
+    enrolledAt = DateTime.tryParse(values["enrolledAt"] ?? '') ?? enrolledAt;
     if (orgUnit != null) {
       this.orgUnit.target = orgUnit;
     }
