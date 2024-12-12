@@ -81,7 +81,6 @@ mixin ProgramRuleEngineState
         String key = programSectionTrackedEntityAttribute
                 .trackedEntityAttribute.target?.uid ??
             '';
-        _toggleFieldVisibility(key, hiddenStatus);
         if (hiddenStatus == true) {
           setValueSilently(key, null);
         }
@@ -90,7 +89,6 @@ mixin ProgramRuleEngineState
       for (var programStageDataElement
           in programStageSection.programStageSectionDataElements) {
         String key = programStageDataElement.dataElement.target?.uid ?? '';
-        _toggleFieldVisibility(key, hiddenStatus);
         if (hiddenStatus == true) {
           setValueSilently(key, null);
         }
