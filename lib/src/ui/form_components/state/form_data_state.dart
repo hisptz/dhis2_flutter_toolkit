@@ -33,7 +33,7 @@ mixin D2FormDataState
   void validateMandatoryFields() {
     List<String> unFilledMandatoryFields = mandatoryFields
         .where((field) {
-          return !hiddenFields.contains(field);
+          return ![...hiddenFields, ...hiddenFieldsBySections].contains(field);
         })
         .whereNot(fieldHasValue)
         .toList();

@@ -81,6 +81,10 @@ mixin ProgramRuleEngineState
         String key = programSectionTrackedEntityAttribute
                 .trackedEntityAttribute.target?.uid ??
             '';
+
+        // hide the field if the section is hidden
+        toggleFieldVisibilityBySectionSilently(key);
+
         if (hiddenStatus == true) {
           setValueSilently(key, null);
         }
