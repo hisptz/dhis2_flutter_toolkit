@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 mixin D2FormHiddenState on ChangeNotifier {
   List<String> hiddenFields = [];
   List<String> hiddenSections = [];
-  List<String> hiddenFieldsBySections = [];
 
   void toggleFieldVisibilitySilently(String key) {
     if (hiddenFields.contains(key)) {
@@ -16,18 +15,26 @@ mixin D2FormHiddenState on ChangeNotifier {
     }
   }
 
-  void toggleFieldVisibilityBySectionSilently(String key) {
-    if (hiddenFieldsBySections.contains(key)) {
-      hiddenFieldsBySections = hiddenFieldsBySections
-          .whereNot((String hiddenKey) => key == hiddenKey)
-          .toList();
-    } else {
-      hiddenFieldsBySections.add(key);
-    }
-  }
-
   void toggleFieldVisibility(String key) {
     toggleFieldVisibilitySilently(key);
+    notifyListeners();
+  }
+
+  void clearHiddenFieldsSilently() {
+    hiddenFields = [];
+  }
+
+  void clearHiddenFields() {
+    clearHiddenFieldsSilently();
+    notifyListeners();
+  }
+
+  void clearHiddenSectionsSilently() {
+    hiddenSections = [];
+  }
+
+  void clearHiddenSections() {
+    clearHiddenSectionsSilently();
     notifyListeners();
   }
 

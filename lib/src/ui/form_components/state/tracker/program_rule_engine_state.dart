@@ -27,9 +27,15 @@ mixin ProgramRuleEngineState
   abstract D2ProgramRuleEngine programRuleEngine;
   abstract List<D2CustomProgramRule> customProgramRules;
 
+  void clearHiddenStatesSilently() {
+    clearHiddenFieldsSilently();
+    clearHiddenSectionsSilently();
+  }
+
   void spawnProgramRuleEngine(List<String> inputFieldIds) async {
     D2ProgramRuleResult programRuleEvaluationResults =
         startProgramRuleEvaluation(inputFieldIds);
+    clearHiddenStatesSilently();
     updateFormStates(programRuleEvaluationResults);
   }
 
@@ -44,8 +50,7 @@ mixin ProgramRuleEngineState
     String fieldKey,
     bool hiddenStatus,
   ) {
-    if ((hiddenStatus == true && !isFieldHidden(fieldKey)) ||
-        (hiddenStatus == false && isFieldHidden(fieldKey))) {
+    if (hiddenStatus == true && !isFieldHidden(fieldKey)) {
       toggleFieldVisibilitySilently(fieldKey);
     }
   }
@@ -83,7 +88,7 @@ mixin ProgramRuleEngineState
             '';
 
         // hide the field if the section is hidden
-        toggleFieldVisibilityBySectionSilently(key);
+        _toggleFieldVisibility(key, hiddenStatus);
 
         if (hiddenStatus == true) {
           setValueSilently(key, null);
