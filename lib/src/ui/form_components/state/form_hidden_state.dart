@@ -20,6 +20,24 @@ mixin D2FormHiddenState on ChangeNotifier {
     notifyListeners();
   }
 
+  void clearHiddenFieldsSilently() {
+    hiddenFields = [];
+  }
+
+  void clearHiddenFields() {
+    clearHiddenFieldsSilently();
+    notifyListeners();
+  }
+
+  void clearHiddenSectionsSilently() {
+    hiddenSections = [];
+  }
+
+  void clearHiddenSections() {
+    clearHiddenSectionsSilently();
+    notifyListeners();
+  }
+
   bool isFieldHidden(String key) {
     return hiddenFields.contains(key);
   }

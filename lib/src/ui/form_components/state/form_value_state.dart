@@ -22,6 +22,11 @@ mixin D2FormValueState on ChangeNotifier {
     notifyListeners();
   }
 
+  void setValuesSilently(Map<String, dynamic> values) {
+    _formValues.addAll(values);
+    notifyListeners();
+  }
+
   sanitizeValue(String key, value) {
     //Verify the value conforms to the valid input type. If it doesn't, modify the value accordingly
     D2BaseInputFieldConfig? fieldConfig =
