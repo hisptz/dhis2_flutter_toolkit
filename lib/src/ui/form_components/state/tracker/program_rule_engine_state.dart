@@ -27,9 +27,9 @@ mixin ProgramRuleEngineState
   abstract D2ProgramRuleEngine programRuleEngine;
   abstract List<D2CustomProgramRule> customProgramRules;
 
+  // TODO find a better way for clearing state
   void clearHiddenStatesSilently() {
     clearHiddenFieldsSilently();
-    clearHiddenSectionsSilently();
   }
 
   void spawnProgramRuleEngine(List<String> inputFieldIds) async {
