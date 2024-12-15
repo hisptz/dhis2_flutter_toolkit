@@ -265,6 +265,10 @@ class D2Event extends SyncDataSource
         this.geometry = geometryString;
       }
     }
+    if (values["status"] != null) {
+      status = values["status"];
+    }
+
     synced = false;
   }
 
