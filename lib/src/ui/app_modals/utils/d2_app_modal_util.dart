@@ -24,16 +24,15 @@ class D2AppModalUtil {
   //   0.85.
   // - topBorderRadius: The top border radius of the action sheet. Defaults to
   //   20.0.
-  static Future showActionSheetModal(
-    BuildContext context, {
-    required Widget actionSheetContainer,
-    String title = '',
-    Color titleColor = const Color(0xFF619E51),
-    double initialHeightRatio = 0.3,
-    double minHeightRatio = 0.1,
-    double maxHeightRatio = 0.85,
-    double topBorderRadius = 20.0,
-  }) {
+  static Future showActionSheetModal(BuildContext context,
+      {required Widget actionSheetContainer,
+      String title = '',
+      Color titleColor = const Color(0xFF619E51),
+      double initialHeightRatio = 0.3,
+      double minHeightRatio = 0.1,
+      double maxHeightRatio = 0.85,
+      double topBorderRadius = 20.0,
+      BoxConstraints? constraints}) {
     // Ensures that the maxHeightRatio is not greater than 0.85 if it's less than
     // the initialHeightRatio.
     maxHeightRatio = maxHeightRatio > 0 ? maxHeightRatio : 0.85;
@@ -42,11 +41,16 @@ class D2AppModalUtil {
     // which is a piece of secondary content that slides up from the bottom of
     // the screen.
     return showModalBottomSheet(
-      context: context, // The BuildContext required for showModalBottomSheet.
-      isDismissible: false, // Whether the user can dismiss the bottom sheet by
+      constraints: constraints,
+      context: context,
+      // The BuildContext required for showModalBottomSheet.
+      isDismissible: false,
+      // Whether the user can dismiss the bottom sheet by
       // dragging it down.
-      isScrollControlled: true, // Whether the bottom sheet can be scrolled.
-      backgroundColor: Colors.transparent, // Transparent background color.
+      isScrollControlled: true,
+      // Whether the bottom sheet can be scrolled.
+      backgroundColor: Colors.transparent,
+      // Transparent background color.
       builder: (context) => D2AppActionSheetModalContainer(
         title: title,
         titleColor: titleColor,
