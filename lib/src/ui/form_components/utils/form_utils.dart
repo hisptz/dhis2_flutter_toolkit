@@ -78,7 +78,7 @@ class D2FormUtils {
           name: name,
           mandatory: mandatory,
           clearable: clearable ?? false,
-          allowFutureDates: allowFutureDates ?? true);
+          allowFutureDates: allowFutureDates ?? false);
     }
     if (D2InputFieldType.isDateRange(type)) {
       return D2DateRangeInputFieldConfig(
