@@ -60,10 +60,13 @@ class FormContainer extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     D2FormSection section = form.sections![index];
+                    bool collapsed = index != 0;
+
                     return FormSectionContainer(
                       disabled: disabled,
                       section: section,
                       onFieldChange: onFormFieldChange,
+                      collapsed: collapsed,
                     );
                   },
                   separatorBuilder: (context, index) => const Padding(
