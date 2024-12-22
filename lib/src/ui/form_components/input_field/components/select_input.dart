@@ -46,12 +46,15 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
       popupProps: PopupProps.menu(
         showSearchBox: shouldShowSearch,
         searchFieldProps: const TextFieldProps(
-          autofocus: true,
+          autofocus: false,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Search here',
           ),
         ),
+        onDismissed: () {
+          FocusScope.of(context).unfocus();
+        },
         fit: FlexFit.tight,
         constraints: BoxConstraints(
           maxHeight: optionNames.length * 50.0 >
@@ -69,13 +72,15 @@ class SelectInput extends BaseStatelessInput<D2SelectInputFieldConfig, String> {
       items: (filter, loadProps) {
         return optionNames;
       },
-      compareFn: (D2InputFieldOption? item, D2InputFieldOption? selectedItem) {
+      compareFn:
+          (D2InputFieldOption? item, D2InputFieldOption? selectedItem) {
         return item?.name == selectedItem?.name;
       },
       onChanged: disabled
           ? null
           : (D2InputFieldOption? selectedOption) {
               onChange(selectedOption?.code);
+              FocusScope.of(context).requestFocus(FocusNode());
             },
       selectedItem: valueOption,
     );
