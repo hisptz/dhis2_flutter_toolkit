@@ -176,7 +176,7 @@ mixin BaseTrackerDataUploadServiceMixin<T extends SyncDataSource>
           synced: 0,
           total: pages,
           status: D2SyncStatusEnum.initialized,
-          label: "$label for ${program!.name} program");
+          label: "$label for ${program?.name ?? 'all'} program(s)");
       uploadController.add(status);
 
       status.updateStatus(D2SyncStatusEnum.syncing);
