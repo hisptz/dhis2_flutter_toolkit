@@ -164,6 +164,7 @@ mixin D2ProgramDownloadServiceMixin on BaseMetaDownloadServiceMixin<D2Program> {
         } catch (e) {
           //TODO: Add a way to be notified when a program download fails
           if (kDebugMode) {
+            print(e);
             print(
                 "Error downloading program: $programId. There is a TODO above this line. Work on it");
           }
