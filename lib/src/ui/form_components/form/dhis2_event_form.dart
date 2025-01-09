@@ -258,6 +258,7 @@ class _D2TrackerEventFormState extends State<D2TrackerEventForm> {
     return D2ControlledForm(
         color: formColor,
         disabled: widget.disabled,
+        collapsableSections: widget.options.collapsableSections,
         form: D2Form(
             title: widget.options.showTitle
                 ? widget.programStage.displayName ?? widget.programStage.name

@@ -10,12 +10,14 @@ class FormSectionContainerWithControlledInputs extends StatefulWidget {
   final bool disabled;
   bool collapsed;
   bool hasError;
+  final bool isCollapsable;
 
   FormSectionContainerWithControlledInputs(
       {super.key,
       required this.section,
       required this.controller,
       this.color,
+      this.isCollapsable = false,
       this.collapsed = false,
       this.hasError = false,
       this.disabled = false});
@@ -74,7 +76,7 @@ class _FormSectionContainerWithControlledInputsState
               ],
             ),
             Visibility(
-              visible: !widget.hasError,
+              visible: !widget.hasError && widget.isCollapsable,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: InkWell(
@@ -107,7 +109,7 @@ class _FormSectionContainerWithControlledInputsState
         AnimatedSize(
             duration: const Duration(milliseconds: 450),
             curve: Curves.fastEaseInToSlowEaseOut,
-            child: collapsed && !widget.hasError
+            child: collapsed && !widget.hasError && widget.isCollapsable
                 ? Container()
                 : Column(
                     children: widget.section.fields

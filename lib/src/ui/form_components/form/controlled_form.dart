@@ -10,11 +10,13 @@ class D2ControlledForm extends StatelessWidget {
   final D2FormController controller;
   final Color? color;
   final bool disabled;
+  final bool collapsableSections;
 
   D2ControlledForm(
       {super.key,
       required this.form,
       required this.controller,
+      this.collapsableSections = false,
       this.color,
       this.disabled = false}) {
     List<D2BaseInputFieldConfig> formFields = [
@@ -79,6 +81,7 @@ class D2ControlledForm extends StatelessWidget {
                           section: section,
                           controller: controller,
                           collapsed: collapsed,
+                          isCollapsable: collapsableSections,
                           hasError: hasError,
                           color: color,
                         ));

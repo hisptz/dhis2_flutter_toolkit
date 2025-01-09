@@ -12,6 +12,7 @@ class FormSectionContainer extends StatefulWidget {
   final bool disabled;
   bool collapsed;
   bool hasError;
+  final bool isCollapsable;
 
   FormSectionContainer(
       {super.key,
@@ -20,6 +21,7 @@ class FormSectionContainer extends StatefulWidget {
       this.disabled = false,
       this.collapsed = false,
       this.hasError = false,
+      this.isCollapsable = false,
       this.color});
 
   @override
@@ -73,7 +75,7 @@ class _FormSectionContainerState extends State<FormSectionContainer>
               ],
             ),
             Visibility(
-              visible: !widget.hasError,
+              visible: !widget.hasError && widget.isCollapsable,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: InkWell(
@@ -107,7 +109,7 @@ class _FormSectionContainerState extends State<FormSectionContainer>
         AnimatedSize(
           duration: const Duration(milliseconds: 450),
           curve: Curves.fastEaseInToSlowEaseOut,
-          child: collapsed && !widget.hasError
+          child: collapsed && !widget.hasError && widget.isCollapsable
               ? Container()
               : Column(
                   children:
