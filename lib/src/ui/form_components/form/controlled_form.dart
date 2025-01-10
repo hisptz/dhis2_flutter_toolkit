@@ -10,11 +10,13 @@ class D2ControlledForm extends StatelessWidget {
   final D2FormController controller;
   final Color? color;
   final bool disabled;
+  final bool collapsableSections;
 
   D2ControlledForm(
       {super.key,
       required this.form,
       required this.controller,
+      this.collapsableSections = false,
       this.color,
       this.disabled = false}) {
     List<D2BaseInputFieldConfig> formFields = [
@@ -48,7 +50,8 @@ class D2ControlledForm extends StatelessWidget {
             : Container(),
         form.sections != null
             ? Column(
-                children: form.sections!.map((D2FormSection section) {
+                children: form.sections!
+                    .mapIndexed((int index, D2FormSection section) {
                 return ListenableBuilder(
                   listenable: controller,
                   builder: (context, child) {
@@ -63,15 +66,26 @@ class D2ControlledForm extends StatelessWidget {
                     bool hidden = (state.hidden ?? false) ||
                         formFieldsState
                             .every((fieldState) => fieldState.hidden ?? false);
+
+                    // checks for errors of the section and the fields
+                    bool hasError = (state.error ?? false) ||
+                        formFieldsState
+                            .any((fieldState) => fieldState.error != null);
+
+                    bool collapsed = index != 0;
+
                     return Visibility(
-                        visible: !hidden, child: child ?? Container());
+                        visible: !hidden,
+                        child: FormSectionContainerWithControlledInputs(
+                          disabled: disabled,
+                          section: section,
+                          controller: controller,
+                          collapsed: collapsed,
+                          isCollapsable: collapsableSections,
+                          hasError: hasError,
+                          color: color,
+                        ));
                   },
-                  child: FormSectionContainerWithControlledInputs(
-                    disabled: disabled,
-                    section: section,
-                    controller: controller,
-                    color: color,
-                  ),
                 );
               }).toList())
             : Column(

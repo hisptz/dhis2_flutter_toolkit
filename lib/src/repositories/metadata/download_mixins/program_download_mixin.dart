@@ -4,9 +4,11 @@ import 'package:dhis2_flutter_toolkit/src/repositories/metadata/option_group_set
 import 'package:dhis2_flutter_toolkit/src/repositories/metadata/sharing.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../models/app/entry.dart';
 import '../../../models/metadata/program.dart';
 import '../../../services/client/client.dart';
 import '../../../utils/sync_status.dart';
+import '../../app/entry.dart';
 import '../data_element.dart';
 import '../legend.dart';
 import '../legend_set.dart';
@@ -43,41 +45,53 @@ mixin D2ProgramDownloadServiceMixin on BaseMetaDownloadServiceMixin<D2Program> {
   }
 
   syncMeta(key, value) async {
-    switch (key) {
-      case "dataElements":
-        return D2DataElementRepository(db).saveOffline(value);
-      case "options":
-        return D2OptionRepository(db).saveOffline(value);
-      case "optionSets":
-        return D2OptionSetRepository(db).saveOffline(value);
-      case "optionGroups":
-        return D2OptionGroupRepository(db).saveOffline(value);
-      case "programRuleVariables":
-        return D2ProgramRuleVariableRepository(db).saveOffline(value);
-      case "programTrackedEntityAttributes":
-        return D2ProgramTrackedEntityAttributeRepository(db).saveOffline(value);
-      case "programStageDataElements":
-        return D2ProgramStageDataElementRepository(db).saveOffline(value);
-      case "programStages":
-        return D2ProgramStageRepository(db).saveOffline(value);
-      case "programRuleActions":
-        return D2ProgramRuleActionRepository(db).saveOffline(value);
-      case "trackedEntityAttributes":
-        return D2TrackedEntityAttributeRepository(db).saveOffline(value);
-      case "trackedEntityTypes":
-        return D2TrackedEntityTypeRepository(db).saveOffline(value);
-      case "programs":
-        return D2ProgramRepository(db).saveOffline(value);
-      case "programRules":
-        return await D2ProgramRuleRepository(db).saveOffline(value);
-      case "legends":
-        return D2LegendRepository(db).saveOffline(value);
-      case "legendSets":
-        return D2LegendSetRepository(db).saveOffline(value);
-      case "programSections":
-        return await D2ProgramSectionRepository(db).saveOffline(value);
-      case "programStageSections":
-        return await D2ProgramStageSectionRepository(db).saveOffline(value);
+    try {
+      switch (key) {
+        case "dataElements":
+          return D2DataElementRepository(db).saveOffline(value);
+        case "options":
+          return D2OptionRepository(db).saveOffline(value);
+        case "optionSets":
+          return D2OptionSetRepository(db).saveOffline(value);
+        case "optionGroups":
+          return D2OptionGroupRepository(db).saveOffline(value);
+        case "programRuleVariables":
+          return D2ProgramRuleVariableRepository(db).saveOffline(value);
+        case "programTrackedEntityAttributes":
+          return D2ProgramTrackedEntityAttributeRepository(db)
+              .saveOffline(value);
+        case "programStageDataElements":
+          return D2ProgramStageDataElementRepository(db).saveOffline(value);
+        case "programStages":
+          return D2ProgramStageRepository(db).saveOffline(value);
+        case "programRuleActions":
+          return D2ProgramRuleActionRepository(db).saveOffline(value);
+        case "trackedEntityAttributes":
+          return D2TrackedEntityAttributeRepository(db).saveOffline(value);
+        case "trackedEntityTypes":
+          return D2TrackedEntityTypeRepository(db).saveOffline(value);
+        case "programs":
+          return D2ProgramRepository(db).saveOffline(value);
+        case "programRules":
+          return await D2ProgramRuleRepository(db).saveOffline(value);
+        case "legends":
+          return D2LegendRepository(db).saveOffline(value);
+        case "legendSets":
+          return D2LegendSetRepository(db).saveOffline(value);
+        case "programSections":
+          return await D2ProgramSectionRepository(db).saveOffline(value);
+        case "programStageSections":
+          return await D2ProgramStageSectionRepository(db).saveOffline(value);
+      }
+    } catch (e, stackTrace) {
+      D2AppLog errorLog = D2AppLog.log(
+        code: 400,
+        message: '$e',
+        process: 'METADATA_DOWNLOAD_ERROR - $key',
+        stackTrace: stackTrace.toString(),
+      );
+      D2AppLogRepository(db).box.put(errorLog);
+      rethrow;
     }
   }
 
@@ -102,9 +116,23 @@ mixin D2ProgramDownloadServiceMixin on BaseMetaDownloadServiceMixin<D2Program> {
   ];
 
   Future<List<D2Sharing>> saveSharingSettings(
-    List<Map<String, dynamic>> objects,
-  ) {
-    return D2SharingRepository(db).saveOffline(objects);
+    List<Map<String, dynamic>> objects,) async {
+    try {
+      return D2SharingRepository(db).saveOffline(objects);
+    } catch (e, stackTrace) {
+      D2AppLog errorLog = D2AppLog.log(
+        code: 400,
+        message: '$e',
+        process: 'METADATA_DOWNLOAD_ERROR',
+        stackTrace: stackTrace.toString(),
+      );
+      D2AppLogRepository(db).box.put(errorLog);
+      if (kDebugMode) {
+        print(e);
+        print(stackTrace.toString());
+      }
+      return [];
+    }
   }
 
   Future<void> syncProgram(String programId) async {
@@ -161,9 +189,18 @@ mixin D2ProgramDownloadServiceMixin on BaseMetaDownloadServiceMixin<D2Program> {
         try {
           await syncProgram(programId);
           downloadController.add(status.increment());
-        } catch (e) {
+        } catch (e, stackTrace) {
           //TODO: Add a way to be notified when a program download fails
+          D2AppLog errorLog = D2AppLog.log(
+            code: 400,
+            message: '$e',
+            process: 'METADATA_DOWNLOAD_ERROR',
+            stackTrace: stackTrace.toString(),
+          );
+          D2AppLogRepository(db).box.put(errorLog);
           if (kDebugMode) {
+            print(e);
+            print(stackTrace.toString());
             print(
                 "Error downloading program: $programId. There is a TODO above this line. Work on it");
           }
@@ -200,34 +237,62 @@ mixin D2ProgramDownloadServiceMixin on BaseMetaDownloadServiceMixin<D2Program> {
   }
 
   getOptionGroupSets(List<Map<String, dynamic>> optionSets) async {
-    List<String> optionSetIds =
-        optionSets.map<String>((optionSet) => optionSet['id']).toList();
-    if (optionSetIds.isNotEmpty) {
-      Map<String, dynamic>? optionGroupSets = await client!
-          .httpGet<Map<String, dynamic>>("optionGroupSets", queryParameters: {
-        'filter': 'optionSet.id:in:[${optionSetIds.join(",")}]',
-        'fields': '*',
-      });
+    try {
+      List<String> optionSetIds =
+          optionSets.map<String>((optionSet) => optionSet['id']).toList();
+      if (optionSetIds.isNotEmpty) {
+        Map<String, dynamic>? optionGroupSets = await client!
+            .httpGet<Map<String, dynamic>>("optionGroupSets", queryParameters: {
+          'filter': 'optionSet.id:in:[${optionSetIds.join(",")}]',
+          'fields': '*',
+        });
 
-      if (optionGroupSets != null) {
-        await D2OptionGroupSetRepository(db).saveOffline(
-            optionGroupSets['optionGroupSets'].cast<Map<String, dynamic>>());
+        if (optionGroupSets != null) {
+          await D2OptionGroupSetRepository(db).saveOffline(
+              optionGroupSets['optionGroupSets'].cast<Map<String, dynamic>>());
+        }
+      }
+    } catch (e, stackTrace) {
+      D2AppLog errorLog = D2AppLog.log(
+        code: 400,
+        message: '$e',
+        process: 'METADATA_DOWNLOAD_ERROR',
+        stackTrace: stackTrace.toString(),
+      );
+      D2AppLogRepository(db).box.put(errorLog);
+      if (kDebugMode) {
+        print(e);
+        print(stackTrace.toString());
       }
     }
   }
 
   getOptionGroup(List<Map<String, dynamic>> optionSets) async {
-    List<String> optionSetIds =
-        optionSets.map<String>((optionSet) => optionSet['id']).toList();
-    if (optionSetIds.isNotEmpty) {
-      Map<String, dynamic>? optionGroups = await client!
-          .httpGet<Map<String, dynamic>>("optionGroups", queryParameters: {
-        'filter': 'optionSet.id:in:[${optionSetIds.join(",")}]',
-        'fields': '*',
-      });
-      if (optionGroups != null) {
-        await D2OptionGroupRepository(db).saveOffline(
-            optionGroups['optionGroups'].cast<Map<String, dynamic>>());
+    try {
+      List<String> optionSetIds =
+          optionSets.map<String>((optionSet) => optionSet['id']).toList();
+      if (optionSetIds.isNotEmpty) {
+        Map<String, dynamic>? optionGroups = await client!
+            .httpGet<Map<String, dynamic>>("optionGroups", queryParameters: {
+          'filter': 'optionSet.id:in:[${optionSetIds.join(",")}]',
+          'fields': '*',
+        });
+        if (optionGroups != null) {
+          await D2OptionGroupRepository(db).saveOffline(
+              optionGroups['optionGroups'].cast<Map<String, dynamic>>());
+        }
+      }
+    } catch (e, stackTrace) {
+      D2AppLog errorLog = D2AppLog.log(
+        code: 400,
+        message: '$e',
+        process: 'METADATA_DOWNLOAD_ERROR',
+        stackTrace: stackTrace.toString(),
+      );
+      D2AppLogRepository(db).box.put(errorLog);
+      if (kDebugMode) {
+        print(e);
+        print(stackTrace.toString());
       }
     }
   }

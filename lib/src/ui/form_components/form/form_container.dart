@@ -16,6 +16,7 @@ class FormContainer extends StatelessWidget {
   final Map<String, bool> hiddenState;
   final Color? color;
   final bool disabled;
+  final bool collapsableSections;
 
   final OnFormFieldChange<String?> onFormFieldChange;
 
@@ -27,6 +28,7 @@ class FormContainer extends StatelessWidget {
       required this.mandatoryState,
       required this.hiddenState,
       required this.onFormFieldChange,
+      this.collapsableSections = false,
       this.disabled = false,
       this.color});
 
@@ -60,10 +62,14 @@ class FormContainer extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     D2FormSection section = form.sections![index];
+                    bool collapsed = index != 0;
+
                     return FormSectionContainer(
                       disabled: disabled,
                       section: section,
                       onFieldChange: onFormFieldChange,
+                      collapsed: collapsed,
+                      isCollapsable: collapsableSections,
                     );
                   },
                   separatorBuilder: (context, index) => const Padding(

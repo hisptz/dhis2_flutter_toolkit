@@ -4,6 +4,7 @@ class D2TrackerFormOptions {
   final bool showTitle;
   final bool showSectionTitle;
   final bool clearable;
+  final bool collapsableSections;
 
   final List<D2FormSection> formSections;
 
@@ -11,5 +12,6 @@ class D2TrackerFormOptions {
       {this.showTitle = true,
       this.formSections = const [],
       this.showSectionTitle = true,
+      this.collapsableSections = false,
       this.clearable = true});
 }
