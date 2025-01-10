@@ -70,6 +70,7 @@ class _FormSectionContainerState extends State<FormSectionContainer>
               children: [
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       widget.section.title != null
                           ? Text(
