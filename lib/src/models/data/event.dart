@@ -239,6 +239,7 @@ class D2Event extends SyncDataSource
       this.orgUnit.target = orgUnit;
     }
     occurredAt = DateTime.tryParse(values["occurredAt"]) ?? occurredAt;
+    scheduledAt = DateTime.tryParse(values["scheduledAt"]) ?? scheduledAt;
     for (D2ProgramStageDataElement d2programStageDataElement
         in programStage.target!.programStageDataElements) {
       D2DataElement d2dataElement =
