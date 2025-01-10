@@ -52,18 +52,18 @@ class _FormSectionContainerState extends State<FormSectionContainer>
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: InkWell(
-            onTap: () {
-              if (widget.isCollapsable) {
-                setState(() {
-                  collapsed = !collapsed;
-                  if (!collapsed) {
-                    _iconController!.forward();
-                  } else {
-                    _iconController!.reverse();
+            onTap: widget.isCollapsable
+                ? () {
+                    setState(() {
+                      collapsed = !collapsed;
+                      if (!collapsed) {
+                        _iconController!.forward();
+                      } else {
+                        _iconController!.reverse();
+                      }
+                    });
                   }
-                });
-              }
-            },
+                : null,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
