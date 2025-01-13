@@ -20,7 +20,7 @@ class DateRangeInput
     DateTimeRange? selectedDateTime = await showDateRangePicker(
         initialDateRange: value,
         context: context,
-        firstDate: DateTime.fromMillisecondsSinceEpoch(0),
+        firstDate: DateTime.parse('1900-01-01 00:00:00Z'),
         lastDate: input.allowFutureDates
             ? DateTime.now().addYears(10)
             : DateTime.now());
