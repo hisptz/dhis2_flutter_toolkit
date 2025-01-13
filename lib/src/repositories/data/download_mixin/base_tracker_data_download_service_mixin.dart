@@ -41,7 +41,7 @@ mixin BaseTrackerDataDownloadServiceMixin<T extends D2DataResource>
       params["fields"] = fields.join(",");
     }
     if (filters.isNotEmpty) {
-      params["filters"] = filters.join(",");
+      params["filter"] = filters.join(",");
     }
     return params;
   }
