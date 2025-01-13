@@ -19,7 +19,7 @@ mixin BaseTrackerDataDownloadServiceMixin<T extends D2DataResource>
   int downloadPageSize = 100;
   List<String> fields = [];
   List<String> filters = [];
-  Map<String, dynamic>? extraParams;
+  Map<String, dynamic>? extraParams = {};
   abstract String label;
   String? dataKey =
       "instances"; //Accessor to the JSON payload from the server. If absent, the resource will be used
@@ -93,7 +93,11 @@ mixin BaseTrackerDataDownloadServiceMixin<T extends D2DataResource>
   }
 
   setParams(Map<String, String> params) {
-    extraParams?.addAll(params);
+    if (extraParams == null) {
+      extraParams = params;
+    } else {
+      extraParams?.addAll(params);
+    }
   }
 
   setLabel(String label) {
