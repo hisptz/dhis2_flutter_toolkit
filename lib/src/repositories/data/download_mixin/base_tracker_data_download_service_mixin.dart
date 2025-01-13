@@ -92,6 +92,10 @@ mixin BaseTrackerDataDownloadServiceMixin<T extends D2DataResource>
     return this;
   }
 
+  setParams(Map<String, String> params) {
+    extraParams?.addAll(params);
+  }
+
   setLabel(String label) {
     this.label = label;
   }
