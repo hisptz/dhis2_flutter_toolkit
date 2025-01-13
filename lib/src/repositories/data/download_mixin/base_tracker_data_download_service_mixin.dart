@@ -77,6 +77,11 @@ mixin BaseTrackerDataDownloadServiceMixin<T extends D2DataResource>
     return this;
   }
 
+  setDataKey(String dataKey) {
+    this.dataKey = dataKey;
+    return this;
+  }
+
   setClient(D2ClientService client) {
     this.client = client;
     return this;
