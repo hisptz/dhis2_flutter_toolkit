@@ -30,12 +30,12 @@ mixin BaseTrackerDataDownloadServiceMixin<T extends D2DataResource>
 
   get downloadQueryParams {
     Map<String, String> params = {
-      ...(extraParams ?? {}),
       "page": "1",
       "pageSize": "$downloadPageSize",
       "totalPages": "true",
       "program": program!.uid,
       "ouMode": "CAPTURE",
+      ...(extraParams ?? {}),
     };
     if (fields.isNotEmpty) {
       params["fields"] = fields.join(",");
@@ -46,7 +46,7 @@ mixin BaseTrackerDataDownloadServiceMixin<T extends D2DataResource>
     return params;
   }
 
-  get downloadStream {
+  Stream<D2SyncStatus> get downloadStream {
     return downloadController.stream;
   }
 
