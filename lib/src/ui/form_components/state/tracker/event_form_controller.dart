@@ -46,7 +46,8 @@ class D2TrackerEventFormController extends D2FormController
         .map((pDataElement) => pDataElement.dataElement.target!.uid)
         .toList();
     this.mandatoryFields.addAll(mandatoryFields);
-    initializeProgramRuleEngine(programStage.program.target!);
+    initializeProgramRuleEngine(programStage.program.target!,
+        specifiedProgramStage: programStage);
   }
 
   void setEvent(D2Event event) {
@@ -60,7 +61,6 @@ class D2TrackerEventFormController extends D2FormController
     List<D2ProgramRule> programRules = program.programRules
         .where(
           (rule) =>
-              rule.programStage.targetId == 0 ||
               rule.programStage.targetId == programStage.id ||
               rule.programStage.targetId == specifiedProgramStage?.id,
         )
