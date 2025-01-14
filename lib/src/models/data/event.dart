@@ -240,6 +240,7 @@ class D2Event extends SyncDataSource
     }
     occurredAt = DateTime.tryParse(values["occurredAt"] ?? '') ?? occurredAt;
     scheduledAt = DateTime.tryParse(values["scheduledAt"] ?? '') ?? scheduledAt;
+    List<D2DataValue> newDataValues = [];
     for (D2ProgramStageDataElement d2programStageDataElement
         in programStage.target!.programStageDataElements) {
       D2DataElement d2dataElement =
@@ -251,11 +252,11 @@ class D2Event extends SyncDataSource
         existingDataValue.updateFromFormValues(values, db: db);
       } else {
         String? value = values[d2dataElement.uid];
-        dataValues.add(D2DataValue.fromFormValues(value,
+        newDataValues.add(D2DataValue.fromFormValues(value,
             event: this, dataElement: d2dataElement));
       }
     }
-
+    dataValues.addAll(newDataValues);
     if (values["geometry"] != null) {
       var geometryValue = values["geometry"];
 
